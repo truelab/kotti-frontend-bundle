@@ -1,0 +1,14 @@
+{% extends '::base.html.twig' %}
+
+{% block body %}
+    <small>view: {{ node.defaultView }}</small>
+
+    <h1>{{ node.title }}</h1>
+
+    <article>
+        {% if node.mimeType is defined and node.mimeType == 'text/html' %}
+            {{ node.body | raw }}
+        {% endif %}
+    </article>
+
+{% endblock %}
