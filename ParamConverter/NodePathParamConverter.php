@@ -59,7 +59,7 @@ class NodePathParamConverter implements ParamConverterInterface
             throw new NotFoundHttpException($e->getMessage(), $e);
         }
 
-        if($this->authorizationChecker->isGranted('ROLE_ADMIN', $node) !== true) {
+        if($this->authorizationChecker->isGranted('VIEW', $node) !== true) {
             throw new HttpException(403, sprintf('Requested node at path = "%s" is "%s"', $node['path'], $node['state']));
         }
 

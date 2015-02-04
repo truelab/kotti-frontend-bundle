@@ -33,5 +33,15 @@
             </call>
         </service>
 
+        <!-- NODE VOTER -->
+        <service id="truelab_kotti_frontend.security.authorization.voter.node_voter"
+                 class="Truelab\KottiFrontendBundle\Security\Authorization\Voter\NodeVoter"
+                 public="false">
+            <tag name="security.voter" />
+            <call method="setRoleHierarchyVoter">
+                <argument type="service" id="security.access.role_hierarchy_voter" />
+            </call>
+        </service>
+
     </services>
 </container>
