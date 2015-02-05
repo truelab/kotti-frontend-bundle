@@ -44,9 +44,9 @@ class NodePathParamConverter implements ParamConverterInterface
         if(!$nodePathParam) {
             throw new \RuntimeException(
                 sprintf(
-                    '"%s" param not found in current request, you can\'t use "%s" ParamConverter without that!',
+                    '"%s" param not found in current request, you can\'t use "%s" without that!',
                     $paramName,
-                    $configuration->getName()
+                    get_class($this)
                 )
             );
         }
@@ -81,15 +81,22 @@ class NodePathParamConverter implements ParamConverterInterface
     }
 
     /**
-     * FIXME
+     * FIXME this code sucks
      * @param string $path
      * @return string
      */
     public function sanitizeNodePathParam($path)
     {
-        $path = rtrim($path, '/') . '/';
-        $path = '/' .ltrim($path, '/');
-        $path = strtolower($path);
+        $path = trim($path);
+
+        if($path == "''") {
+           return '/';
+        }else{
+            $path = rtrim($path, '/') . '/';
+            $path = '/' .ltrim($path, '/');
+            $path = strtolower($path);
+        }
+
         return $path;
     }
 

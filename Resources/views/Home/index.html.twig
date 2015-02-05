@@ -1,0 +1,10 @@
+{% extends layout %}
+
+{% block content %}
+    <h1>HOMEPAGE</h1>
+    <h1>{{ context.title }}</h1>
+
+    <article>
+            {{ context.documentBody | raw }}
+    </article>
+{% endblock %}

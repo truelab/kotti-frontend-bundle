@@ -4,8 +4,16 @@
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:schemaLocation="http://symfony.com/schema/routing http://symfony.com/schema/routing/routing-1.0.xsd">
 
-    <route id="truelab_kotti_frontend_document" path="/{nodePath}">
-        <default key="_controller">TruelabKottiFrontendBundle:Document:index</default>
+    <route id="truelab_kotti_frontend_node" path="{nodePath}">
+        <default key="_controller">TruelabKottiFrontendBundle:Node:get</default>
         <requirement key="nodePath">.+</requirement>
     </route>
+
+    <route id="truelab_kotti_frontend_node_home" path="/">
+        <default key="_controller">TruelabKottiFrontendBundle:Node:home</default>
+        <default key="nodePath">''</default>
+    </route>
+
+
+
 </routes>

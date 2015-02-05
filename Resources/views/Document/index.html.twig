@@ -1,14 +1,11 @@
-{% extends '::base.html.twig' %}
+{% extends layout %}
 
-{% block body %}
-    <small>view: {{ node.defaultView }}</small>
-
-    <h1>{{ node.title }}</h1>
+{% block content %}
+    <h1>{{ context.title }}</h1>
 
     <article>
-        {% if node.mimeType is defined and node.mimeType == 'text/html' %}
-            {{ node.body | raw }}
+        {% if context.mimeType is defined and context.mimeType == 'text/html' %}
+            {{ context.body | raw }}
         {% endif %}
     </article>
-
 {% endblock %}
