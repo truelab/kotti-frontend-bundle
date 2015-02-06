@@ -3,9 +3,10 @@
 namespace Truelab\KottiFrontendBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use Truelab\KottiMultilanguageBundle\Entity\LanguageRoot;
-use Truelab\KottiORMBundle\Entity\Document;
-use Truelab\KottiORMBundle\Model\NodeInterface;
+use Truelab\KottiModelBundle\Model\Document;
+use Truelab\KottiModelBundle\Model\LanguageRoot;
+use Truelab\KottiModelBundle\Model\LanguageRootInterface;
+use Truelab\KottiModelBundle\Model\NodeInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 
 class NodeController extends Controller
@@ -61,7 +62,7 @@ class NodeController extends Controller
             );
         }
 
-        if($node instanceof LanguageRoot) {
+        if($node instanceof LanguageRootInterface) {
             return $this->render(
                 $this->getView('Home:index'),
                 $options

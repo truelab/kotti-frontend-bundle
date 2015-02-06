@@ -24,8 +24,8 @@
             <tag name="request.param_converter"
                  priority="%truelab_kotti_frontend.param_converter.node_path_param_converter.priority%"
                  converter="node_path_converter"/>
-            <call method="setNodeRepository">
-                <argument type="service" id="truelab_kotti_orm.node_repository" />
+            <call method="setRepository">
+                <argument type="service" id="truelab_kotti_model.repository" />
             </call>
 
             <call method="setAuthorizationChecker">

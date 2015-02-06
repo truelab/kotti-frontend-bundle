@@ -8,8 +8,8 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Symfony\Component\HttpKernel\Exception\HttpException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
-use Truelab\KottiORMBundle\Exception\NodeWherePathNotFoundException;
-use Truelab\KottiORMBundle\Repository\NodeRepositoryInterface;
+use Truelab\KottiModelBundle\Exception\NodeByPathNotFoundException;
+use Truelab\KottiModelBundle\Repository\RepositoryInterface;
 
 
 /**
@@ -19,9 +19,9 @@ use Truelab\KottiORMBundle\Repository\NodeRepositoryInterface;
 class NodePathParamConverter implements ParamConverterInterface
 {
     /**
-     * @var NodeRepositoryInterface $nodeRepository
+     * @var RepositoryInterface $repository
      */
-    private $nodeRepository;
+    private $repository;
 
     /**
      * @var AuthorizationCheckerInterface $authorizationChecker
@@ -54,8 +54,8 @@ class NodePathParamConverter implements ParamConverterInterface
         // find by path
         try {
             $nodePath = $this->sanitizeNodePathParam($nodePathParam);
-            $node = $this->getNodeRepository()->getOneWherePath($nodePath);
-        } catch (NodeWherePathNotFoundException $e) {
+            $node = $this->getRepository()->findByPath($nodePath);
+        } catch (NodeByPathNotFoundException $e) {
             throw new NotFoundHttpException($e->getMessage(), $e);
         }
 
@@ -101,19 +101,19 @@ class NodePathParamConverter implements ParamConverterInterface
     }
 
     /**
-     * @param NodeRepositoryInterface $nodeRepository
+     * @param RepositoryInterface $repository
      */
-    public function setNodeRepository(NodeRepositoryInterface $nodeRepository)
+    public function setRepository(RepositoryInterface $repository)
     {
-        $this->nodeRepository = $nodeRepository;
+        $this->repository = $repository;
     }
 
     /**
-     * @return NodeRepositoryInterface
+     * @return RepositoryInterface
      */
-    public function getNodeRepository()
+    public function getRepository()
     {
-        return $this->nodeRepository;
+        return $this->repository;
     }
 
     /**

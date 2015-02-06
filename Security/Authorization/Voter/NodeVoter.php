@@ -42,7 +42,7 @@ class NodeVoter implements VoterInterface
      */
     public function supportsClass($class)
     {
-       return in_array('Truelab\KottiORMBundle\Model\NodeInterface', class_implements($class));
+       return in_array('Truelab\KottiModelBundle\Model\NodeInterface', class_implements($class));
     }
 
     /**
