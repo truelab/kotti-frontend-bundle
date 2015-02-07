@@ -2,19 +2,60 @@
 <html>
 <head>
     <meta charset="UTF-8"/>
-    <title>{% block title %}Welcome!{% endblock %}</title>
+    <title>{% block title %}{{ context.title }}{% endblock %}</title>
+    <meta lang="{{ context.language }}">
+
     {% block stylesheets %}{% endblock %}
+
     <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}"/>
+    <style>
+        html, body {
+            padding:0; margin:0;
+        }
+
+        aside {
+            float: left;
+            width: 33%;
+            min-width: 300px;
+            overflow-x: auto;
+            overflow-y: auto;
+        }
+
+        nav#main {
+            display: block;
+            height: 100%;
+            padding: 0 12px;
+        }
+
+        nav#main ul {
+            list-style:none;
+        }
+
+        nav#main > ul {
+            margin: 0;
+            padding: 0;
+        }
+    </style>
 </head>
 <body>
     {% block body %}
+        <aside>
+            <nav id="main">
+                {% block navigation %}
+                    {% include '@TruelabKottiFrontendBundle/Resources/views/Block/navigation.html.twig'
+                    with { 'links': context.children } only
+                    %}
+                {% endblock %}
+            </nav>
+        </aside>
 
-        {% block navigation %}{% endblock %}
+        <section id="content">
+            {% block content %}{% endblock %}
+        </section>
 
-        {% block content %}{% endblock %}
-
-        {% block footer %}{% endblock %}
-
+        <footer>
+            {% block footer %}{% endblock %}
+        </footer>
     {% endblock %}
 
     {% block javascripts %}{% endblock %}

@@ -8,6 +8,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Symfony\Component\HttpKernel\Exception\HttpException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
+use Truelab\KottiFrontendBundle\Services\CurrentContext;
 use Truelab\KottiModelBundle\Exception\NodeByPathNotFoundException;
 use Truelab\KottiModelBundle\Repository\RepositoryInterface;
 
@@ -38,7 +39,7 @@ class NodePathParamConverter implements ParamConverterInterface
      */
     public function apply(Request $request, ParamConverter $configuration)
     {
-        $paramName = 'nodePath'; // FIXME get options
+        $paramName = 'nodePath';
         $nodePathParam = $request->attributes->get($paramName, false);
 
         if(!$nodePathParam) {
@@ -52,18 +53,14 @@ class NodePathParamConverter implements ParamConverterInterface
         }
 
         // find by path
-        try {
-            $nodePath = $this->sanitizeNodePathParam($nodePathParam);
-            $node = $this->getRepository()->findByPath($nodePath);
-        } catch (NodeByPathNotFoundException $e) {
-            throw new NotFoundHttpException($e->getMessage(), $e);
+        if(!$context = $this->getCurrentContext()->get()) {
+            throw new NotFoundHttpException('Current context not found!');
         }
 
-        if($this->authorizationChecker->isGranted('VIEW', $node) !== true) {
-            throw new HttpException(403, sprintf('Requested node at path = "%s" is "%s"', $node['path'], $node['state']));
+        if($this->authorizationChecker->isGranted('VIEW', $context) !== true) {
+            throw new HttpException(403, sprintf('Requested context at path = "%s" is "%s"', $context['path'], $context['state']));
         }
-
-        $request->attributes->set($configuration->getName(), $node);
+        $request->attributes->set('context', $context);
 
         return true;
     }
@@ -85,7 +82,7 @@ class NodePathParamConverter implements ParamConverterInterface
      * @param string $path
      * @return string
      */
-    public function sanitizeNodePathParam($path)
+    public static function sanitizeNodePathParam($path)
     {
         $path = trim($path);
 
@@ -130,5 +127,16 @@ class NodePathParamConverter implements ParamConverterInterface
     public function getAuthorizationChecker()
     {
         return $this->authorizationChecker;
+    }
+
+    public function setCurrentContext(CurrentContext $currentContext) {
+        $this->currentContext = $currentContext;
+    }
+
+    /**
+     * @return CurrentContext
+     */
+    public function getCurrentContext() {
+        return $this->currentContext;
     }
 }

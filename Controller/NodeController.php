@@ -4,6 +4,7 @@ namespace Truelab\KottiFrontendBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Truelab\KottiModelBundle\Model\Document;
+use Truelab\KottiModelBundle\Model\DocumentInterface;
 use Truelab\KottiModelBundle\Model\LanguageRoot;
 use Truelab\KottiModelBundle\Model\LanguageRootInterface;
 use Truelab\KottiModelBundle\Model\NodeInterface;
@@ -11,77 +12,76 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 
 class NodeController extends Controller
 {
-    // FIXME XXX
-    protected $currentViewBundle = 'TruelabKottiFrontendBundle';
+    public function __construct()
+    {
+        $this->currentViewBundle = '@TruelabKottiFrontendBundle';
+        $this->viewConfig = [
+            Document::getClass() => 'Document:index',
+            LanguageRoot::getClass() => 'Home:index'
+        ];
+    }
 
     /**
-     * @param NodeInterface $node
+     * @param NodeInterface $context
+     *
      * @return \Symfony\Component\HttpFoundation\Response
      *
      * @ParamConverter(converter="node_path_converter")
      */
-    public function homeAction(NodeInterface $node)
+    public function homeAction(NodeInterface $context)
     {
-        return $this->viewLookUp($node);
+        return $this->viewLookUp($context);
     }
 
     /**
-     * @param NodeInterface $node
+     * @param NodeInterface $context
+     *
      * @return \Symfony\Component\HttpFoundation\Response
      *
      * @ParamConverter(converter="node_path_converter")
      */
-    public function getAction(NodeInterface $node)
+    public function getAction(NodeInterface $context)
     {
-        return $this->viewLookUp($node);
+        return $this->viewLookUp($context);
     }
 
     /**
-     * FIXME XXX
-     *
-     * @param NodeInterface $node
+     * @param NodeInterface $context
      *
      * @return \Symfony\Component\HttpFoundation\Response
      */
-    public function viewLookUp(NodeInterface $node, $options = array())
+    protected function viewLookUp(NodeInterface $context, $parameters = array())
     {
-        // default parameters
-        $options = array_merge(array(
-            'context' => $node,
-            'layout' => 'TruelabKottiFrontendBundle::base.html.twig' // FIXME
-        ), $options);
+        $parameters = array_merge(array(
+            'context' => $context,
+            'layout' => $this->getTemplatePath('base')
+        ), $parameters);
 
-        if(isset($options['template'])) {
-            return $this->render($options['template'], $options);
+        return $this->renderContextView($context, $parameters);
+    }
+
+    protected function renderContextView(NodeInterface $context, $parameters)
+    {
+        if(!isset($this->viewConfig[get_class($context)])) {
+            throw new \RuntimeException(sprintf('I can\'t handle view lookUp for %s at %s', get_class($context), $context->getPath()));
         }
 
-        if($node instanceof Document) {
-            return $this->render(
-                $this->getView('Document:index'),
-                $options
-            );
-        }
-
-        if($node instanceof LanguageRootInterface) {
-            return $this->render(
-                $this->getView('Home:index'),
-                $options
-            );
-        }
-
-        throw new \RuntimeException(sprintf('I can\'t handle view lookUp for %s', $node->__toString()));
+        return $this->render(
+            $this->getTemplatePath($this->viewConfig[get_class($context)]),
+            $parameters
+        );
     }
 
     /**
-     * FIXME XXX
-     *
      * @param string $template
      *
      * @return string
      */
-    public function getView($template)
+    protected function getTemplatePath($template)
     {
-        return $this->currentViewBundle . ':' . $template . '.html.twig';
+        return $this->currentViewBundle
+            . '/Resources/views/'
+            . str_replace(':' , '/' , $template) . '.html.twig';
     }
 
 }

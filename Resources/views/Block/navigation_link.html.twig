@@ -1,14 +1,14 @@
-{% extends layout %}
+{% for link in links %}
+    <li>
+        <a href="{{ asset(link.path) }}">{{ link.title }}</a>
+        {% if link.hasChildren %}
+            <ul>
 
-{% block links %}
-    {% for link in links %}
-        <li>
-            <a href="{{ link.path }}">{{ link.title }}</a>
-            {% if link.hasChildren %}
-                <ul>
-                    {% include template with { 'links': link.children } %}
-                </ul>
-            {% endif %}
-        </li>
-    {% endfor %}
-{% endblock %}
+                {% include '@TruelabKottiFrontendBundle/Resources/views/Block/navigation_link.html.twig'
+                    with { 'links': link.children }
+                %}
+            </ul>
+        {% endif %}
+    </li>
+{% endfor %}
+
