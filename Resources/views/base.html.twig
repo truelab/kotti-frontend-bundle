@@ -17,6 +17,7 @@
             float: left;
             width: 33%;
             min-width: 300px;
+            min-height: 600px;
             overflow-x: auto;
             overflow-y: auto;
         }
@@ -43,7 +44,7 @@
             <nav id="main">
                 {% block navigation %}
                     {% include '@TruelabKottiFrontendBundle/Resources/views/Block/navigation.html.twig'
-                    with { 'links': context.children } only
+                    with { 'links': context.getInNavigationChildren } only
                     %}
                 {% endblock %}
             </nav>

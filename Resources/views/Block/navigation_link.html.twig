@@ -1,11 +1,11 @@
 {% for link in links %}
     <li>
         <a href="{{ asset(link.path) }}">{{ link.title }}</a>
-        {% if link.hasChildren %}
+        {% if link.hasInNavigationChildren %}
             <ul>
 
                 {% include '@TruelabKottiFrontendBundle/Resources/views/Block/navigation_link.html.twig'
-                    with { 'links': link.children }
+                    with { 'links': link.getInNavigationChildren }
                 %}
             </ul>
         {% endif %}
