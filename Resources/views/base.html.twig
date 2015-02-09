@@ -38,10 +38,12 @@
         }
     </style>
 </head>
+
 <body>
     {% block body %}
         <aside>
             <nav id="main">
+                <h4>{% trans %}navigation{% endtrans %}</h4>
                 {% block navigation %}
                     {% include '@TruelabKottiFrontendBundle/Resources/views/Block/navigation.html.twig'
                     with { 'links': context.getInNavigationChildren } only
@@ -61,4 +63,5 @@
 
     {% block javascripts %}{% endblock %}
 </body>
+
 </html>
