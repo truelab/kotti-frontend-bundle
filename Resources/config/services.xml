@@ -41,7 +41,7 @@
         <!-- CURRENT CONTEXT LISTENER -->
         <service id="truelab_kotti_frontend.listener.current_context"
                  class="Truelab\KottiFrontendBundle\Listener\CurrentContextListener">
-            <argument type="service" id="truelab_kotti_model.repository" />
+            <argument type="service" id="truelab_kotti_model.alias_repository" />
             <argument type="service" id="truelab_kotti_frontend.services.current_context" />
             <argument type="service" id="twig" />
             <tag name="kernel.event_listener" event="kernel.request" method="onKernelRequest" />
