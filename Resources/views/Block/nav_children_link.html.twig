@@ -4,7 +4,7 @@
         {% if link.hasInNavigationChildren %}
             <ul>
 
-                {% include '@TruelabKottiFrontendBundle/Resources/views/Block/navigation_link.html.twig'
+                {% include 'TruelabKottiFrontendBundle:Block:nav_children_link.html.twig'
                     with { 'links': link.getInNavigationChildren }
                 %}
             </ul>

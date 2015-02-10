@@ -1,0 +1,5 @@
+{% for link in links %}
+    <li class="{{ link.equals(context) ? 'active' : '' }}">
+        <a href="{{ asset(link.path) }}">{{ link.title }}</a>
+    </li>
+{% endfor %}

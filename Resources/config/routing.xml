@@ -4,13 +4,13 @@
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:schemaLocation="http://symfony.com/schema/routing http://symfony.com/schema/routing/routing-1.0.xsd">
 
-    <route id="truelab_kotti_frontend_node" path="{nodePath}">
-        <default key="_controller">TruelabKottiFrontendBundle:Node:get</default>
+    <route id="truelab_kotti_frontend_context" path="{nodePath}">
+        <default key="_controller">TruelabKottiFrontendBundle:Context:get</default>
         <requirement key="nodePath">.+</requirement>
     </route>
 
-    <route id="truelab_kotti_frontend_node_home" path="/">
-        <default key="_controller">TruelabKottiFrontendBundle:Node:home</default>
+    <route id="truelab_kotti_frontend_context_home" path="/"> <!-- FIXME -->
+        <default key="_controller">TruelabKottiFrontendBundle:Context:home</default>
         <default key="nodePath">''</default>
     </route>
 

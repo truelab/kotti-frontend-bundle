@@ -3,18 +3,21 @@
 namespace Truelab\KottiFrontendBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\HttpFoundation\RedirectResponse;
+use Symfony\Component\HttpFoundation\Request;
 use Truelab\KottiModelBundle\Model\Document;
-use Truelab\KottiModelBundle\Model\DocumentInterface;
 use Truelab\KottiModelBundle\Model\LanguageRoot;
-use Truelab\KottiModelBundle\Model\LanguageRootInterface;
 use Truelab\KottiModelBundle\Model\NodeInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
+use Truelab\KottiModelBundle\Repository\RepositoryInterface;
 
-class NodeController extends Controller
+class ContextController extends Controller
 {
     public function __construct()
     {
+        // FIXME hardcoded
         $this->currentViewBundle = '@TruelabKottiFrontendBundle';
+        $this->currentLayout = '@MIPCoreBundle/Resources/views/base_layout.html.twig';
         $this->viewConfig = [
             Document::getClass() => 'Document:index',
             LanguageRoot::getClass() => 'Home:index'
@@ -22,15 +25,13 @@ class NodeController extends Controller
     }
 
     /**
-     * @param NodeInterface $context
-     *
-     * @return \Symfony\Component\HttpFoundation\Response
-     *
-     * @ParamConverter(converter="node_path_converter")
+     * @return RedirectResponse
      */
-    public function homeAction(NodeInterface $context)
+    public function homeAction()
     {
-        return $this->viewLookUp($context);
+        return new RedirectResponse(
+            $this->getLanguage()->getDefaultLanguageRootPath()
+        );
     }
 
     /**
@@ -45,6 +46,19 @@ class NodeController extends Controller
         return $this->viewLookUp($context);
     }
 
+
+    /**
+     * @return \Truelab\KottiMultilanguageBundle\Util\Language
+     */
+    protected function getLanguage()
+    {
+        return $this->container->get('truelab_kotti_multilanguage.util.language');
+    }
+
+
+
+    // FIXME context templating service
+
     /**
      * @param NodeInterface $context
      *
@@ -54,7 +68,7 @@ class NodeController extends Controller
     {
         $parameters = array_merge(array(
             'context' => $context,
-            'layout' => $this->getTemplatePath('base')
+            'layout' => $this->currentLayout
         ), $parameters);
 
         return $this->renderContextView($context, $parameters);
@@ -83,6 +97,5 @@ class NodeController extends Controller
             . '/Resources/views/'
             . str_replace(':' , '/' , $template) . '.html.twig';
     }
-
 }
 

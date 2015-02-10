@@ -5,56 +5,68 @@
     <title>{% block title %}{{ context.title }}{% endblock %}</title>
     <meta lang="{{ context.language }}">
 
-    {% block stylesheets %}{% endblock %}
+    {% block stylesheets %}
+        <link href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css" rel="stylesheet">
+        <style>
+            body {
+                min-height: 2000px;
+                padding-top: 70px;
+            }
+
+            nav#nav-children {
+                display: block;
+                height: 100%;
+                padding: 0 12px;
+            }
+
+            nav#nav-children ul {
+                list-style:none;
+            }
+
+            nav#nav-children > ul {
+                margin: 0;
+                padding: 0;
+            }
+        </style>
+    {% endblock %}
 
     <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}"/>
-    <style>
-        html, body {
-            padding:0; margin:0;
-        }
-
-        aside {
-            float: left;
-            width: 33%;
-            min-width: 300px;
-            min-height: 600px;
-            overflow-x: auto;
-            overflow-y: auto;
-        }
-
-        nav#main {
-            display: block;
-            height: 100%;
-            padding: 0 12px;
-        }
-
-        nav#main ul {
-            list-style:none;
-        }
-
-        nav#main > ul {
-            margin: 0;
-            padding: 0;
-        }
-    </style>
 </head>
 
 <body>
     {% block body %}
-        <aside>
-            <nav id="main">
-                <h4>{% trans %}navigation{% endtrans %}</h4>
-                {% block navigation %}
-                    {% include '@TruelabKottiFrontendBundle/Resources/views/Block/navigation.html.twig'
-                    with { 'links': context.getInNavigationChildren } only
-                    %}
-                {% endblock %}
-            </nav>
-        </aside>
 
-        <section id="content">
-            {% block content %}{% endblock %}
-        </section>
+        {% block navigation %}{% endblock %}
+
+        {% block main_section %}
+            <div id="container" class="container">
+
+                <aside class="col-xs-3">
+                    {% block aside %}
+                        <nav id="nav-children">
+                            <ul>
+                                {% if context.getInNavigationChildren|length > 0  %}
+                                    {% block nav_children %}
+                                        {% include 'TruelabKottiFrontendBundle:Block:nav_children_link.html.twig'
+                                            with { 'links': context.getInNavigationChildren } only
+                                        %}
+                                    {% endblock %}
+                                {% else %}
+                                    <li>
+                                        <a href="javascript:window.history.back()"> << {% trans %}back{% endtrans %}</a>
+                                    </li>
+                                {% endif %}
+                            </ul>
+                        </nav>
+                    {% endblock %}
+                </aside>
+
+                <section id="content" class="col-xs-9">
+                    {% block content %}{% endblock %}
+                </section>
+
+            </div>
+        {% endblock %}
 
         <footer>
             {% block footer %}{% endblock %}
