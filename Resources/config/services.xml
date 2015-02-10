@@ -6,17 +6,11 @@
 
 
     <parameters>
-        <parameter key="truelab_kotti_frontend.services.node_manipulator.class">Truelab\KottiFrontendBundle\Services\NodeManipulator</parameter>
-
         <parameter key="truelab_kotti_frontend.param_converter.node_path_param_converter.class">Truelab\KottiFrontendBundle\ParamConverter\NodePathParamConverter</parameter>
         <parameter key="truelab_kotti_frontend.param_converter.node_path_param_converter.priority">1</parameter>
     </parameters>
 
     <services>
-
-        <!-- NODE MANIPULATOR -->
-        <service id="truelab_kotti_frontend.services.node_manipulator"
-                 class="%truelab_kotti_frontend.services.node_manipulator.class%" />
 
         <!-- NODE PATH PARAM CONVERTER -->
         <service id="truelab_kotti_frontend.param_converter.node_path_param_converter"
