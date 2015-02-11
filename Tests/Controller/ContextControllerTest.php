@@ -6,6 +6,7 @@ use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 /**
  * Class ContextControllerTest
  * @package Truelab\KottiFrontendBundle\Tests\Controller
+ * @group functional
  */
 class ContextControllerTest extends WebTestCase
 {

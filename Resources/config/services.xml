@@ -29,8 +29,7 @@
 
         <!-- CURRENT CONTEXT -->
         <service id="truelab_kotti_frontend.services.current_context"
-            class="Truelab\KottiFrontendBundle\Services\CurrentContext">
-        </service>
+            class="Truelab\KottiFrontendBundle\Services\CurrentContext" />
 
         <!-- CURRENT CONTEXT LISTENER -->
         <service id="truelab_kotti_frontend.listener.current_context"
@@ -50,6 +49,22 @@
                 <argument type="service" id="security.access.role_hierarchy_voter" />
             </call>
         </service>
+
+        <!-- TEMPLATE API -->
+        <service id="truelab_kotti_frontend.template_api"
+                 class="Truelab\KottiFrontendBundle\Util\TemplateApi">
+            <argument>%truelab_kotti_frontend.template_api_config%</argument>
+            <argument type="service" id="truelab_kotti_frontend.services.current_context" />
+        </service>
+
+        <!-- TWIG EXTENSION -->
+        <service id="truelab_kotti_frontend.twig.kotti"
+                 class="Truelab\KottiFrontendBundle\Twig\KottiExtension"
+                 public="false">
+            <argument type="service" id="truelab_kotti_frontend.template_api" />
+            <tag name="twig.extension" />
+        </service>
+
 
     </services>
 </container>

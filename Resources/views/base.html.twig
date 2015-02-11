@@ -41,6 +41,15 @@
         {% block main_section %}
             <div id="container" class="container">
 
+                {% block breadcrumbs %}
+                    <ol class="breadcrumb">
+                    {% for breadcrumb in kotti_breadcrumbs() %}
+                        <li><a href="{{ kotti_path(breadcrumb) }}">{{ breadcrumb.title }}</a></li>
+                    {% endfor %}
+                        <li class="active">{{ context.title }}</li>
+                    </ol>
+                {% endblock %}
+
                 <aside class="col-xs-3">
                     {% block aside %}
                         <nav id="nav-children">

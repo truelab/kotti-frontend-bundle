@@ -22,6 +22,14 @@ class TruelabKottiFrontendExtension extends Extension
         $configuration = new Configuration();
         $config = $this->processConfiguration($configuration, $configs);
 
+        $templateApiConfig = array(
+            'domain' => $config['domain']
+        );
+
+        $container->setParameter('truelab_kotti_frontend.navigation_root_chooser', $config['navigation_root_chooser']);
+        $container->setParameter('truelab_kotti_frontend.template_api_config', $templateApiConfig);
+
+
         $loader = new Loader\XmlFileLoader($container, new FileLocator(__DIR__.'/../Resources/config'));
         $loader->load('services.xml');
     }
