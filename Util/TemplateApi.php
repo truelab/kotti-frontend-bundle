@@ -1,6 +1,7 @@
 <?php
 
 namespace Truelab\KottiFrontendBundle\Util;
+
 use Truelab\KottiModelBundle\Model\NodeInterface;
 use Truelab\KottiFrontendBundle\Services\CurrentContext;
 
@@ -19,9 +20,17 @@ class TemplateApi
         $this->currentContext = $currentContext;
     }
 
-    public function path(NodeInterface $context)
+    public function path($context)
     {
-        return rtrim($this->config['domain'], '/') . $context->getPath();
+        if (is_string($context)) {
+            return $this->frontendDomain($context);
+        }
+
+        if ($context instanceof NodeInterface) {
+            return $this->frontendDomain($context->getPath());
+        }
+
+        throw new \RuntimeException(sprintf('I can\'t generate a url for "%s"', get_class($context)));
     }
 
     public function getConfig()
@@ -71,5 +80,10 @@ class TemplateApi
 
 
         return $breadcrumbs;
+    }
+
+    protected function frontendDomain($path)
+    {
+        return rtrim($this->config['domain'], '/') . $path;
     }
 }
