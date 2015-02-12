@@ -3,9 +3,12 @@
 {% block content %}
     <h1>{{ context.title }}</h1>
 
-    <article>
-        {% if context.mimeType is defined and context.mimeType == 'text/html' %}
-            {{ context.body | raw }}
+    {% spaceless %}
+        {% if context.mimeType is defined
+            and context.mimeType == 'text/html'
+            and context.body %}
+        <article>{{ context.body | raw }}</article>
         {% endif %}
-    </article>
+    {% endspaceless %}
+
 {% endblock %}

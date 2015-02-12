@@ -16,7 +16,7 @@
             nav#nav-children {
                 display: block;
                 height: 100%;
-                padding: 0 12px;
+                padding:0;
             }
 
             nav#nav-children ul {
@@ -43,43 +43,45 @@
 
                 {% block breadcrumbs %}
                     <ol class="breadcrumb">
-                    {% for breadcrumb in kotti_breadcrumbs() %}
+                    {% for breadcrumb in kotti_breadcrumbs(context) %}
                         <li><a href="{{ kotti_path(breadcrumb) }}">{{ breadcrumb.title }}</a></li>
                     {% endfor %}
                         <li class="active">{{ context.title }}</li>
                     </ol>
                 {% endblock %}
 
-                <aside class="col-xs-3">
-                    {% block aside %}
-                        <nav id="nav-children">
-                            <ul>
-                                {% if context.getInNavigationChildren|length > 0  %}
-                                    {% block nav_children %}
-                                        {% include 'TruelabKottiFrontendBundle:Block:nav_children_link.html.twig'
-                                            with { 'links': context.getInNavigationChildren } only
-                                        %}
-                                    {% endblock %}
-                                {% else %}
-                                    <li>
-                                        <a href="javascript:window.history.back()"> << {% trans %}back{% endtrans %}</a>
-                                    </li>
-                                {% endif %}
-                            </ul>
-                        </nav>
-                    {% endblock %}
+                {% block aside %}
+                <aside class="col-sm-3">
+                    <nav id="nav-children">
+                        <ul>
+                            {% if context.getInNavigationChildren|length > 0  %}
+                                {% block nav_children %}
+                                    {% include 'TruelabKottiFrontendBundle:Block:nav_children_link.html.twig'
+                                        with { 'links': context.getInNavigationChildren } only
+                                    %}
+                                {% endblock %}
+                            {% else %}
+                                <li>
+                                    <a href="javascript:window.history.back()"> << {% trans %}back{% endtrans %}</a>
+                                </li>
+                            {% endif %}
+                        </ul>
+                    </nav>
                 </aside>
+                {% endblock %}
 
-                <section id="content" class="col-xs-9">
-                    {% block content %}{% endblock %}
-                </section>
+                {% block content_area  %}
+                <section id="content" class="col-sm-9">{% block content %}{% endblock %}</section>
+                {% endblock %}
 
             </div>
         {% endblock %}
 
-        <footer>
-            {% block footer %}{% endblock %}
-        </footer>
+        {% block footer_area %}
+            {% spaceless %}
+            <footer>{% block footer %}{% endblock %}</footer>
+            {% endspaceless %}
+        {%  endblock %}
     {% endblock %}
 
     {% block javascripts %}{% endblock %}

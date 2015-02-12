@@ -8,9 +8,4 @@
         <default key="_controller">TruelabKottiFrontendBundle:Context:get</default>
         <requirement key="nodePath">.+</requirement>
     </route>
-
-    <route id="truelab_kotti_frontend_context_home" path="/" methods="GET"> <!-- FIXME -->
-        <default key="_controller">TruelabKottiFrontendBundle:Context:home</default>
-        <default key="nodePath">''</default>
-    </route>
 </routes>

@@ -30,6 +30,11 @@ class NodePathParamConverter implements ParamConverterInterface
     private $authorizationChecker;
 
     /**
+     * @var CurrentContext
+     */
+    private $currentContext;
+
+    /**
      * Stores the object in the request.
      *
      * @param Request $request The request
