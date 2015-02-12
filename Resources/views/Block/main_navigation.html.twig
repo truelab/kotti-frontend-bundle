@@ -6,20 +6,8 @@
                 {% include 'TruelabKottiFrontendBundle:Block:main_navigation_link.html.twig' with { 'links' : links } only %}
             </ul>
 
-            {# locale / language roots #}
-            {% if language is defined %}
-                <ul class="nav navbar-nav navbar-right">
-                {% for language_root in language.availableLanguageRoots %}
-
-                    <li class="{{ context.language == language_root.language ? 'active' : '' }}">
-                        <a href="{{ kotti_path(language_root) }}">
-                            {{ language_root.title }}
-                        </a>
-                    </li>
-                {% endfor %}
-                </ul>
-            {% endif %}
-
+            {% include 'TruelabKottiMultilanguageBundle:Block:language_switch.html.twig' %}
+            
         </div>
     </div>
 </nav>
