@@ -1,5 +1,5 @@
 {% for link in links %}
-    <li class="{{ link.equals(context) ? 'active' : '' }}">
+    <li class="{{ kotti_active_link_class(link) }}">
         <a href="{{ kotti_path(link) }}">{{ link.title }}</a>
     </li>
 {% endfor %}

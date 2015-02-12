@@ -38,6 +38,11 @@ class TemplateApi
         return $this->config;
     }
 
+    protected function getContext()
+    {
+        return $this->currentContext->get();
+    }
+
     public function navigationRoot()
     {
         return $this->currentContext->navigationRoot();
@@ -78,12 +83,31 @@ class TemplateApi
             return array_slice($breadcrumbs, $index);
         }
 
-
         return $breadcrumbs;
+    }
+
+    public function isActiveLink(NodeInterface $link)
+    {
+        $context = $this->getContext();
+        return $this->startsWith($context->getPath(), $link->getPath());
+    }
+
+    public function activeLinkClass(NodeInterface $link)
+    {
+        return $this->isActiveLink($link) ? 'active' : '';
     }
 
     protected function frontendDomain($path)
     {
         return rtrim($this->config['domain'], '/') . $path;
+    }
+
+
+    protected static function startsWith($haystack, $needle, $case = false)
+    {
+        if ($case) {
+            return strpos($haystack, $needle, 0) === 0;
+        }
+        return stripos($haystack, $needle, 0) === 0;
     }
 }
