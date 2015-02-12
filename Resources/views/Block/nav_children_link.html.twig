@@ -1,6 +1,6 @@
 {% for link in links %}
     <li>
-        <a href="{{ kotti_path(link.path) }}">{{ link.title }}</a>
+        <a href="{{ kotti_path(link) }}">{{ link.title }}</a>
         {% if link.hasInNavigationChildren %}
             <ul>
 
