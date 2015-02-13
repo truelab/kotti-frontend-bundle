@@ -20,8 +20,7 @@ class BaseController extends Controller
         $this->templatesConfig['theme_bundle'] = '@TruelabKottiFrontendBundle';
         $this->templatesConfig['theme_layout'] = '@MIPCoreBundle/Resources/views/base_layout.html.twig';
         $this->templatesConfig['theme_templates_map'] = [
-            Document::getClass() => 'Document:index',
-            LanguageRoot::getClass() => 'Home:index'
+            Document::getClass() => 'Document:index'
         ];
     }
 

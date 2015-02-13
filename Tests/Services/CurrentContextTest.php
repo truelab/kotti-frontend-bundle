@@ -67,7 +67,7 @@ class CurrentContextTest extends \PHPUnit_Framework_TestCase
     public function provideNode()
     {
         $class = 'Truelab\KottiModelBundle\Model\NodeInterface';
-        $methods = array('hasParent','getParent','getPath','equals','getChildren','hasChildren','setRepository','getId');
+        $methods = array('hasParent','getParent','getPath','equals','getChildren','hasChildren','setRepository','getId','getType');
 
 
         $leaf    = $this->getMock($class, $methods);

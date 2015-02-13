@@ -2,6 +2,7 @@
 
 namespace Truelab\KottiFrontendBundle\Listener;
 use Truelab\KottiFrontendBundle\ParamConverter\NodePathParamConverter;
+use Truelab\KottiFrontendBundle\Services\ContextFromRequest;
 use Truelab\KottiModelBundle\Exception\NodeByPathNotFoundException;
 use Truelab\KottiModelBundle\Repository\RepositoryInterface;
 use Truelab\KottiFrontendBundle\Services\CurrentContext;
@@ -15,10 +16,10 @@ use Symfony\Component\HttpKernel\HttpKernelInterface;
 class CurrentContextListener
 {
 
-    public function __construct(RepositoryInterface $repository, CurrentContext $currentContext, \Twig_Environment $twig)
+    public function __construct(ContextFromRequest $contextFromRequest, CurrentContext $currentContext, \Twig_Environment $twig)
     {
         $this->paramName = 'nodePath'; // FIXME
-        $this->repository = $repository;
+        $this->contextFromRequest = $contextFromRequest;
         $this->currentContext = $currentContext;
         $this->twigEnv = $twig;
     }
@@ -31,28 +32,28 @@ class CurrentContextListener
 
         $request = $event->getRequest();
 
-        if (!$request->attributes->has($this->paramName)) {
+        if ($request->attributes->has('context')) {
+            // set a global twig variables
+            $this->twigEnv->addGlobal('context', $this->currentContext->get());
             return;
         }
 
-        $path = $request->attributes->get($this->paramName);
+        $data = $this->contextFromRequest->find($request);
 
-        $nodePath = NodePathParamConverter::sanitizeNodePathParam($path);
+        if ($data) {
 
-        try {
-            $node = $this->repository->findByPath($nodePath);
-        } catch (NodeByPathNotFoundException $e) {
-            return;
+            $context = $data['context'];
+
+            // set current context
+            $this->currentContext->set($context);
+
+            // set a request attributes
+            $request->attributes->set('context', $this->currentContext->get());
+
+            // set a global twig variables
+            $this->twigEnv->addGlobal('context', $this->currentContext->get());
         }
 
-        // set current context
-        $this->currentContext->set($node);
-
-        // set a request attributes
-        $request->attributes->set('context', $this->currentContext->get());
-
-        // set a global twig variables
-        $this->twigEnv->addGlobal('context', $this->currentContext->get());
     }
 
 }

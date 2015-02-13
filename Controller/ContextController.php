@@ -2,7 +2,6 @@
 
 namespace Truelab\KottiFrontendBundle\Controller;
 
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Truelab\KottiModelBundle\Model\NodeInterface;
 
 

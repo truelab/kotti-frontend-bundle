@@ -48,13 +48,7 @@ class NodePathParamConverter implements ParamConverterInterface
         $nodePathParam = $request->attributes->get($paramName, false);
 
         if(!$nodePathParam) {
-            throw new \RuntimeException(
-                sprintf(
-                    '"%s" param not found in current request, you can\'t use "%s" without that!',
-                    $paramName,
-                    get_class($this)
-                )
-            );
+            return false;
         }
 
         // find by path
