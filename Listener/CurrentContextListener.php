@@ -15,23 +15,32 @@ use Symfony\Component\HttpKernel\HttpKernelInterface;
  */
 class CurrentContextListener
 {
+    private $nodePathParam; // XXX - NOT USED ANYMORE
+
+    private $contextFromRequest;
+
+    private $currentContext;
+
+    private $twigEnvironment;
+
+    private $defaultLayout;
 
     public function __construct(ContextFromRequest $contextFromRequest,
                                 CurrentContext $currentContext,
                                 \Twig_Environment $twig,
-                                $defaultLayout)
+                                $defaultLayout, $nodePathParam = 'nodePath')
     {
-        $this->paramName = 'nodePath'; // FIXME
+        $this->nodePathParam = $nodePathParam; // XXX - NOT USED ANYMORE
         $this->contextFromRequest = $contextFromRequest;
         $this->currentContext = $currentContext;
-        $this->twigEnv = $twig;
+        $this->twigEnvironment = $twig;
         $this->defaultLayout = $defaultLayout;
     }
 
     public function onKernelRequest(GetResponseEvent $event)
     {
 
-        $this->twigEnv->addGlobal('layout', $this->defaultLayout);
+        $this->twigEnvironment->addGlobal('layout', $this->defaultLayout);
 
         if (HttpKernelInterface::MASTER_REQUEST !== $event->getRequestType()) {
             return;
@@ -41,7 +50,7 @@ class CurrentContextListener
 
         if ($request->attributes->has('context')) {
             // set a global twig variables
-            $this->twigEnv->addGlobal('context', $this->currentContext->get());
+            $this->twigEnvironment->addGlobal('context', $this->currentContext->get());
             return;
         }
 
@@ -58,10 +67,8 @@ class CurrentContextListener
             $request->attributes->set('context', $this->currentContext->get());
 
             // set a global twig variables
-            $this->twigEnv->addGlobal('context', $this->currentContext->get());
+            $this->twigEnvironment->addGlobal('context', $this->currentContext->get());
         }
-
-
 
     }
 

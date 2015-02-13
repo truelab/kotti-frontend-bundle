@@ -27,10 +27,10 @@ class TruelabKottiFrontendExtension extends Extension implements PrependExtensio
             'domain' => $config['domain']
         );
 
-        $container->setParameter('truelab_kotti_frontend.navigation_root_chooser', $config['navigation_root_chooser']);
-        $container->setParameter('truelab_kotti_frontend.default_layout', $config['default_layout']);
-        $container->setParameter('truelab_kotti_frontend.template_api_config', $templateApiConfig);
-
+        $container->setParameter($this->getAlias() .'.navigation_root_chooser', $config['navigation_root_chooser']);
+        $container->setParameter($this->getAlias() .'.default_layout', $config['default_layout']);
+        $container->setParameter($this->getAlias() .'.node_path_param', $config['node_path_param']);
+        $container->setParameter($this->getAlias() .'.template_api_config', $templateApiConfig);
 
         $loader = new Loader\XmlFileLoader($container, new FileLocator(__DIR__.'/../Resources/config'));
         $loader->load('services.xml');

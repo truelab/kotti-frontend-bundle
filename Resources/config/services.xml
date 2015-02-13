@@ -38,6 +38,7 @@
             <argument type="service" id="truelab_kotti_frontend.services.current_context" />
             <argument type="service" id="twig" />
             <argument>%truelab_kotti_frontend.default_layout%</argument>
+            <argument>%truelab_kotti_frontend.node_path_param%</argument>
             <tag name="kernel.event_listener" event="kernel.request" method="onKernelRequest" priority="20" />
         </service>
 
