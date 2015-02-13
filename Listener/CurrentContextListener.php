@@ -16,16 +16,23 @@ use Symfony\Component\HttpKernel\HttpKernelInterface;
 class CurrentContextListener
 {
 
-    public function __construct(ContextFromRequest $contextFromRequest, CurrentContext $currentContext, \Twig_Environment $twig)
+    public function __construct(ContextFromRequest $contextFromRequest,
+                                CurrentContext $currentContext,
+                                \Twig_Environment $twig,
+                                $defaultLayout)
     {
         $this->paramName = 'nodePath'; // FIXME
         $this->contextFromRequest = $contextFromRequest;
         $this->currentContext = $currentContext;
         $this->twigEnv = $twig;
+        $this->defaultLayout = $defaultLayout;
     }
 
     public function onKernelRequest(GetResponseEvent $event)
     {
+
+        $this->twigEnv->addGlobal('layout', $this->defaultLayout);
+
         if (HttpKernelInterface::MASTER_REQUEST !== $event->getRequestType()) {
             return;
         }
@@ -53,6 +60,8 @@ class CurrentContextListener
             // set a global twig variables
             $this->twigEnv->addGlobal('context', $this->currentContext->get());
         }
+
+
 
     }
 

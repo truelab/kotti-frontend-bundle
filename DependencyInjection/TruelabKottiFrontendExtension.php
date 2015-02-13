@@ -28,6 +28,7 @@ class TruelabKottiFrontendExtension extends Extension implements PrependExtensio
         );
 
         $container->setParameter('truelab_kotti_frontend.navigation_root_chooser', $config['navigation_root_chooser']);
+        $container->setParameter('truelab_kotti_frontend.default_layout', $config['default_layout']);
         $container->setParameter('truelab_kotti_frontend.template_api_config', $templateApiConfig);
 
 

@@ -22,6 +22,9 @@ class Configuration implements ConfigurationInterface
 
         $rootNode
             ->children()
+                ->scalarNode('default_layout')
+                    ->defaultValue('@TruelabKottiFrontendBundle/Resources/views/base.html.twig')
+                ->end()
                 ->scalarNode('domain')
                     ->treatFalseLike(null)
                     ->defaultNull()
