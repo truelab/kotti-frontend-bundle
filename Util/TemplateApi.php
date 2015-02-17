@@ -65,8 +65,9 @@ class TemplateApi
     {
 
         $breadcrumbs = array_reverse($this->lineage());
+        $context = $this->currentContext->get();
 
-        if($this->currentContext->get()->equals($this->navigationRoot())) {
+        if($context->equals($this->navigationRoot())) {
             return [];
         }
 
@@ -79,9 +80,13 @@ class TemplateApi
             }
         }
 
+        array_push($breadcrumbs, $context);
+
         if($index !== null) {
             return array_slice($breadcrumbs, $index);
         }
+
+
 
         return $breadcrumbs;
     }

@@ -77,7 +77,7 @@ class TemplateApiTest extends \PHPUnit_Framework_TestCase
             return $node->getPath();
         }, $this->api->breadcrumbs());
 
-        $this->assertEquals(['/','/en/', '/en/foo/'], $breadcrumbsPath);
+        $this->assertEquals(['/','/en/', '/en/foo/', '/en/foo/bar/'], $breadcrumbsPath);
     }
 
     public function provideDomainPath()

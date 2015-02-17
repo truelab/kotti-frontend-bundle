@@ -25,9 +25,19 @@ class KottiExtension extends \Twig_Extension
         );
     }
 
-    public function breadcrumbs()
+    public function breadcrumbs($options = [])
     {
-        return $this->templateApi->breadcrumbs();
+        $options = array_merge([
+            'exclude_root' => false
+        ], $options);
+
+        $breadcrumbs = $this->templateApi->breadcrumbs();
+
+        if(count($breadcrumbs) > 1 && $options['exclude_root'] === true) {
+            array_shift($breadcrumbs);
+        }
+
+        return $breadcrumbs;
     }
 
     public function path($context)
