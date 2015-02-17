@@ -1,5 +1,6 @@
 {% for link in links %}
     <li class="{{ kotti_active_link_class(link) }}">
         <a href="{{ kotti_path(link) }}">{{ link.title }}</a>
+        <span class="vertical-divider"></span>
     </li>
 {% endfor %}
