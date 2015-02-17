@@ -7,28 +7,30 @@
 
     {% block stylesheets %}
         <link href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css" rel="stylesheet">
-        <style>
-            body {
-                min-height: 200px;
-                padding-top: 70px;
-            }
-
-            nav#nav-children {
-                display: block;
-                height: 100%;
-                padding:0;
-            }
-
-            nav#nav-children ul {
-                list-style:none;
-            }
-
-            nav#nav-children > ul {
-                margin: 0;
-                padding: 0;
-            }
-        </style>
     {% endblock %}
+
+    <!-- FIXME -->
+    <style>
+        body {
+            min-height: 200px;
+            padding-top: 70px;
+        }
+
+        nav#nav-children {
+            display: block;
+            height: 100%;
+            padding:0;
+        }
+
+        nav#nav-children ul {
+            list-style:none;
+        }
+
+        nav#nav-children > ul {
+            margin: 0;
+            padding: 0;
+        }
+    </style>
 
     <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}"/>
 </head>
