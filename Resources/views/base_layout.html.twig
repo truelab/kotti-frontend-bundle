@@ -10,7 +10,6 @@
 
     {% block main_section %}
         <div id="container" class="container">
-
             {% block breadcrumbs %}
                 <ol class="breadcrumb">
                 {% for breadcrumb in kotti_breadcrumbs(context) %}
@@ -22,26 +21,12 @@
 
             {% block aside %}
             <aside class="col-sm-3">
-                <nav id="nav-children">
-                    <ul>
-                        {% if context.getInNavigationChildren|length > 0  %}
-                            {% block nav_children %}
-                                {% include 'TruelabKottiFrontendBundle:Block:nav_children_link.html.twig'
-                                    with { 'links': context.getInNavigationChildren } only
-                                %}
-                            {% endblock %}
-                        {% else %}
-                            <li>
-                                <a href="javascript:window.history.back()"> << {% trans %}back{% endtrans %}</a>
-                            </li>
-                        {% endif %}
-                    </ul>
-                </nav>
+                {% include 'TruelabKottiFrontendBundle:Block:nav_tree.html.twig' %}
             </aside>
             {% endblock %}
 
             {% block content_area  %}
-            <section id="content" class="col-sm-9">{% block content %}{% endblock %}</section>
+                <section id="content" class="col-sm-9">{% block content %}{% endblock %}</section>
             {% endblock %}
 
         </div>

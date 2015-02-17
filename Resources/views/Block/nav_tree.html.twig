@@ -1,0 +1,15 @@
+<nav id="nav-children">
+    <ul>
+        {% if context.getInNavigationChildren|length > 0  %}
+            {% block nav_children %}
+                {% include 'TruelabKottiFrontendBundle:Block:nav_children_link.html.twig'
+                with { 'links': context.getInNavigationChildren } only
+                %}
+            {% endblock %}
+        {% else %}
+            <li>
+                <a href="javascript:window.history.back()"> << {% trans %}back{% endtrans %}</a>
+            </li>
+        {% endif %}
+    </ul>
+</nav>

@@ -12,7 +12,7 @@ class ContextController extends BaseController
     /**
      * @param NodeInterface $context
      *
-     * @return \Symfony\Component\HttpFoundation\Response
+     * @return array
      *
      * @Template()
      */
