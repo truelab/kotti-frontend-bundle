@@ -75,15 +75,20 @@ class ContextFromRequest
         ];
 
         foreach($paths as $segment => $path) {
+
             try {
+
                 $node = $this->repository->findByPath($path);
                 $data['lineage'][] = $node;
                 $data['context']   = $node;
+
             } catch (NodeByPathNotFoundException $e) {
+
                 $data['action'] = ltrim(rtrim($segment, '/'), '/');
                 return $data;
             }
         }
+
 
         return $data;
     }

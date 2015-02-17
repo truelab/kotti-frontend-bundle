@@ -50,6 +50,7 @@ class RouteProvider implements RouteProviderInterface
     {
         $data = $this->contextFromRequest->find($request);
 
+
         if(!$data) {
             return [];
         }
