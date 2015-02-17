@@ -26,7 +26,7 @@ class Configuration implements ConfigurationInterface
                     ->defaultValue('nodePath')
                 ->end()
                 ->scalarNode('default_layout')
-                    ->defaultValue('@TruelabKottiFrontendBundle/Resources/views/base.html.twig')
+                    ->defaultValue('@TruelabKottiFrontendBundle/Resources/views/base_layout.html.twig')
                 ->end()
                 ->scalarNode('domain')
                     ->treatFalseLike(null)

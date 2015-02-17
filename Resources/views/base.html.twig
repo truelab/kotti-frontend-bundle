@@ -3,11 +3,10 @@
 <head>
     <meta charset="UTF-8"/>
     <title>{% block title %}{{ context.title }}{% endblock %}</title>
-    <meta lang="{{ context.language }}">
 
-    {% block stylesheets %}
-        <link href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css" rel="stylesheet">
-    {% endblock %}
+    {% if context is defined and context.language is defined %}
+        <meta lang="{{ context.language }}">
+    {% endif %}
 
     <!-- FIXME -->
     <style>
@@ -32,60 +31,17 @@
         }
     </style>
 
-    <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}"/>
+    {% block stylesheets %}
+        <link href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css" rel="stylesheet">
+    {% endblock %}
+
+    {% block favicon %}
+        <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}"/>
+    {% endblock %}
 </head>
 
 <body>
-    {% block body %}
-
-        {% block navigation %}{% endblock %}
-
-        {% block main_section %}
-            <div id="container" class="container">
-
-                {% block breadcrumbs %}
-                    <ol class="breadcrumb">
-                    {% for breadcrumb in kotti_breadcrumbs(context) %}
-                        <li><a href="{{ kotti_path(breadcrumb) }}">{{ breadcrumb.title }}</a></li>
-                    {% endfor %}
-                        <li class="active">{{ context.title }}</li>
-                    </ol>
-                {% endblock %}
-
-                {% block aside %}
-                <aside class="col-sm-3">
-                    <nav id="nav-children">
-                        <ul>
-                            {% if context.getInNavigationChildren|length > 0  %}
-                                {% block nav_children %}
-                                    {% include 'TruelabKottiFrontendBundle:Block:nav_children_link.html.twig'
-                                        with { 'links': context.getInNavigationChildren } only
-                                    %}
-                                {% endblock %}
-                            {% else %}
-                                <li>
-                                    <a href="javascript:window.history.back()"> << {% trans %}back{% endtrans %}</a>
-                                </li>
-                            {% endif %}
-                        </ul>
-                    </nav>
-                </aside>
-                {% endblock %}
-
-                {% block content_area  %}
-                <section id="content" class="col-sm-9">{% block content %}{% endblock %}</section>
-                {% endblock %}
-
-            </div>
-        {% endblock %}
-
-        {% block footer_area %}
-            {% spaceless %}
-            <footer>{% block footer %}{% endblock %}</footer>
-            {% endspaceless %}
-        {%  endblock %}
-    {% endblock %}
-
+    {% block body %}{% endblock %}
     {% block javascripts %}{% endblock %}
 </body>
 
