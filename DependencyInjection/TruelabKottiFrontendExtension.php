@@ -31,6 +31,7 @@ class TruelabKottiFrontendExtension extends Extension implements PrependExtensio
         $container->setParameter($this->getAlias() .'.default_layout', $config['default_layout']);
         $container->setParameter($this->getAlias() .'.node_path_param', $config['node_path_param']);
         $container->setParameter($this->getAlias() .'.template_api_config', $templateApiConfig);
+        $container->setParameter($this->getAlias() .'.template_options', $config['options']);
 
         $loader = new Loader\XmlFileLoader($container, new FileLocator(__DIR__.'/../Resources/config'));
         $loader->load('services.xml');

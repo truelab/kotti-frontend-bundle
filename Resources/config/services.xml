@@ -57,6 +57,7 @@
                  class="Truelab\KottiFrontendBundle\Util\TemplateApi">
             <argument>%truelab_kotti_frontend.template_api_config%</argument>
             <argument type="service" id="truelab_kotti_frontend.services.current_context" />
+            <argument>%truelab_kotti_frontend.template_options%</argument>
         </service>
 
         <!-- TWIG EXTENSION -->

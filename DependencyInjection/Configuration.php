@@ -35,6 +35,10 @@ class Configuration implements ConfigurationInterface
                 ->scalarNode('navigation_root_chooser')
                     ->defaultValue(null)
                 ->end()
+                ->arrayNode('options')
+                    ->useAttributeAsKey('name')
+                    ->prototype('scalar')
+                ->end()
 
             ->end();
 

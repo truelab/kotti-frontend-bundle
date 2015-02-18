@@ -13,11 +13,13 @@ class TemplateApi
 {
     protected $config;
     protected $lineage;
+    protected $options;
 
-    public function __construct($config, CurrentContext $currentContext)
+    public function __construct($config, CurrentContext $currentContext, $options = [])
     {
         $this->config = $config;
         $this->currentContext = $currentContext;
+        $this->options = $options;
     }
 
     public function path($context)
@@ -102,11 +104,24 @@ class TemplateApi
         return $this->isActiveLink($link) ? 'active' : '';
     }
 
+    /**
+     * @param $key
+     * @param null $default
+     *
+     * @return mixed|null
+     */
+    public function option($key, $default = null)
+    {
+        if(isset($this->options[$key])) {
+            return $this->options[$key];
+        }
+        return $default;
+    }
+
     protected function frontendDomain($path)
     {
         return rtrim($this->config['domain'], '/') . $path;
     }
-
 
     protected static function startsWith($haystack, $needle, $case = false)
     {
