@@ -2,7 +2,7 @@
 <html>
 <head>
     <meta charset="UTF-8"/>
-    <title>{% block title %}{{ context.title }}{% endblock %}</title>
+    <title>{% block title %}{{ context is defined ? context.title : '' }}{% endblock %}</title>
 
     {% if context is defined and context.language is defined %}
         <meta lang="{{ context.language }}">
