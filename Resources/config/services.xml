@@ -65,6 +65,7 @@
                  class="Truelab\KottiFrontendBundle\Twig\KottiExtension"
                  public="false">
             <argument type="service" id="truelab_kotti_frontend.template_api" />
+            <argument type="service" id="truelab_kotti_frontend.html_body_processor_manager" />
             <tag name="twig.extension" />
         </service>
 
@@ -80,5 +81,19 @@
         <service id="truelab_kotti_frontend.route_provider" class="Truelab\KottiFrontendBundle\Routing\RouteProvider">
             <argument type="service" id="truelab_kotti_frontend.services.context_from_request" />
         </service>
+
+
+        <!-- HTML BODY PROCESSOR MANAGER -->
+        <service id="truelab_kotti_frontend.html_body_processor_manager"
+                 class="Truelab\KottiFrontendBundle\BodyProcessor\Html\BodyProcessorManager" />
+
+        <!-- HTML IMAGE PROCESSOR -->
+        <service id="truelab_kotti_frontend.html_image_body_processor"
+                 class="Truelab\KottiFrontendBundle\BodyProcessor\Html\ImageBodyProcessor"
+                 >
+            <argument>%truelab_kotti_frontend.image_domain%</argument>
+            <tag name="truelab_kotti_frontend.html_processor" />
+        </service>
+
     </services>
 </container>

@@ -1,0 +1,7 @@
+{% macro list_nav_item(item, current_context) %}
+    <li class="{{ item.equals(current_context) ? 'active' : '' }}">
+        <a href="{{ kotti_path(item.path) }}">
+            {{ item.title }}
+        </a>
+    </li>
+{% endmacro %}

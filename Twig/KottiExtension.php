@@ -1,6 +1,7 @@
 <?php
 
 namespace Truelab\KottiFrontendBundle\Twig;
+use Truelab\KottiFrontendBundle\BodyProcessor\BodyProcessorManagerInterface;
 use Truelab\KottiFrontendBundle\Util\TemplateApi;
 
 /**
@@ -11,9 +12,23 @@ class KottiExtension extends \Twig_Extension
 {
     private $templateApi;
 
-    public function __construct(TemplateApi $templateApi)
+    private $bodyProcessor;
+
+    public function __construct(TemplateApi $templateApi, BodyProcessorManagerInterface $bodyProcessor)
     {
         $this->templateApi = $templateApi;
+        $this->bodyProcessor = $bodyProcessor;
+    }
+
+    public function getFilters()
+    {
+        return array(
+            new \Twig_SimpleFilter('kotti_raw', function ($input) {
+                return $this->bodyProcessor->process($input);
+            },array(
+                'is_safe' => array('html')
+            ))
+        );
     }
 
     public function getFunctions()
