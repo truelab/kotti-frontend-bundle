@@ -2,6 +2,7 @@
 
 namespace Truelab\KottiFrontendBundle\Util;
 
+use MIP\CoreBundle\Model\Link;
 use Truelab\KottiModelBundle\Model\NodeInterface;
 use Truelab\KottiFrontendBundle\Services\CurrentContext;
 
@@ -15,6 +16,11 @@ class TemplateApi
     protected $lineage;
     protected $options;
 
+    /**
+     * @var PathHandlerInterface[]
+     */
+    protected $pathHandlers = [];
+
     public function __construct($config, CurrentContext $currentContext, $options = [])
     {
         $this->config = $config;
@@ -22,10 +28,21 @@ class TemplateApi
         $this->options = $options;
     }
 
+    public function addPathHandler(PathHandlerInterface $pathHandler)
+    {
+        $this->pathHandlers[] = $pathHandler;
+    }
+
     public function path($context)
     {
         if (is_string($context)) {
             return $this->frontendDomain($context);
+        }
+
+        foreach($this->pathHandlers as $pathHandler) {
+            if($pathHandler->support($context)) {
+                return $this->frontendDomain($pathHandler->getPath($context));
+            }
         }
 
         if ($context instanceof NodeInterface) {
