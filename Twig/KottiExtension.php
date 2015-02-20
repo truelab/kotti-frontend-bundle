@@ -3,6 +3,7 @@
 namespace Truelab\KottiFrontendBundle\Twig;
 use Truelab\KottiFrontendBundle\BodyProcessor\BodyProcessorManagerInterface;
 use Truelab\KottiFrontendBundle\Util\TemplateApi;
+use Truelab\KottiModelBundle\Util\ModelUtil;
 
 /**
  * Class KottiExtension
@@ -27,7 +28,10 @@ class KottiExtension extends \Twig_Extension
                 return $this->bodyProcessor->process($input);
             },array(
                 'is_safe' => array('html')
-            ))
+            )),
+            new \Twig_SimpleFilter('kotti_type', function ($input, $pattern) {
+                return ModelUtil::filterByType($input, $pattern);
+            })
         );
     }
 
