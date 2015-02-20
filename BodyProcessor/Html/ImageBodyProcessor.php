@@ -1,9 +1,6 @@
 <?php
 
-
-
 namespace Truelab\KottiFrontendBundle\BodyProcessor\Html;
-use Sunra\PhpSimple\HtmlDomParser;
 use Symfony\Component\Config\Definition\Exception\Exception;
 
 /**
@@ -24,16 +21,26 @@ class ImageBodyProcessor implements BodyProcessorInterface
     }
 
     /**
-     * @param $input
+     * @param $html
      *
      * @return string
      */
-    public function process($input)
+    public function process($html)
     {
-        $html = HtmlDomParser::str_get_html($input);
         foreach($html->find('img') as $img) {
             $img->setAttribute('src', $this->imageDomain . $img->getAttribute('src'));
         }
-        return $html->__toString();
+
+        foreach($html->find('img[style="float: right;"]') as $imgRight) {
+            //$imgRight->removeAttribute('style');
+            $imgRight->setAttribute('class', 'img-right');
+        }
+
+        foreach($html->find('img[style="float: left;"]') as $imgRight) {
+            //$imgRight->removeAttribute('style');
+            $imgRight->setAttribute('class', 'img-left');
+        }
+
+        return $html;
     }
 }

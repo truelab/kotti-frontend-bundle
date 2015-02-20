@@ -2,6 +2,7 @@
 
 namespace Truelab\KottiFrontendBundle\BodyProcessor\Html;
 
+use Sunra\PhpSimple\HtmlDomParser;
 use Truelab\KottiFrontendBundle\BodyProcessor\AbstractBodyProcessorManager;
 
 /**
@@ -12,16 +13,16 @@ class BodyProcessorManager extends AbstractBodyProcessorManager
 {
     public function process($input)
     {
-        $output = $input;
-
+        $html = HtmlDomParser::str_get_html($input);
         /**
          * @var BodyProcessorInterface $processor
          */
         foreach($this->getProcessors() as $processor)
         {
-            $output = $processor->process($output);
+            $html = $processor->process($html);
         }
-        return $output;
+
+        return $html->__toString();
     }
 
 }
