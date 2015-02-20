@@ -83,7 +83,6 @@ class ContextFromRequest
                 $data['context']   = $node;
 
             } catch (NodeByPathNotFoundException $e) {
-
                 $data['action'] = ltrim(rtrim($segment, '/'), '/');
                 return $data;
             }

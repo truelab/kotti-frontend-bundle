@@ -70,9 +70,21 @@ class RouteProvider implements RouteProviderInterface
             'context'     => $context
         ));
 
+        $route_action = new Route($context->getPath() . $data['action'], array(
+            'type'        => $context->getType(),
+            'context'     => $context
+        ));
+
+        $route_action_ = new Route($context->getPath() . $data['action'] . '/', array(
+            'type'        => $context->getType(),
+            'context'     => $context
+        ));
+
         $collection = new RouteCollection();
         $collection->add('truelab_kotti_frontend_node_' . $context->getId(), $route);
         $collection->add('truelab_kotti_frontend_node_' . $context->getId() .'_', $route_);
+        $collection->add('truelab_kotti_frontend_node_' . $context->getId() .'_'. $data['action'] , $route_action);
+        $collection->add('truelab_kotti_frontend_node_' . $context->getId() .'_'. $data['action']. '_' , $route_action_);
 
         return $collection;
     }

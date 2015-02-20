@@ -59,6 +59,7 @@ class NodePathParamConverter implements ParamConverterInterface
         if($this->authorizationChecker->isGranted('VIEW', $context) !== true) {
             throw new HttpException(403, sprintf('Requested context at path = "%s" is "%s"', $context['path'], $context['state']));
         }
+
         $request->attributes->set('context', $context);
 
         return true;
