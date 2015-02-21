@@ -12,7 +12,7 @@
         <div id="container" class="container">
             {% block breadcrumbs %}
                 <ol class="breadcrumb">
-                {% for breadcrumb in kotti_breadcrumbs(context) %}
+                {% for breadcrumb in kotti_breadcrumbs() %}
                     <li><a href="{{ kotti_path(breadcrumb) }}">{{ breadcrumb.title }}</a></li>
                 {% endfor %}
                     <li class="active">{{ context.title }}</li>

@@ -21,7 +21,9 @@ class NavigationRootChooserCompilerPass implements CompilerPassInterface
      */
     public function process(ContainerBuilder $container)
     {
-        $container->getDefinition('truelab_kotti_frontend.services.current_context')
-            ->setArguments(array(new Reference($container->getParameter('truelab_kotti_frontend.navigation_root_chooser'))));
+        if($container->getParameter('truelab_kotti_frontend.navigation_root_chooser')) {
+            $container->getDefinition('truelab_kotti_frontend.services.current_context')
+                ->setArguments(array(new Reference($container->getParameter('truelab_kotti_frontend.navigation_root_chooser'))));
+        }
     }
 }

@@ -1,0 +1,33 @@
+{
+    "name": "truelab/kotti-frontend-bundle",
+    "description": "A symfony2 bundle that provides frontend helpers and logic to show Kotti contents.",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Ruben Barilani",
+            "email": "ruben.barilani.dev@gmail.com"
+        }
+    ],
+    "autoload" : {
+        "psr-4": {"Truelab\\KottiFrontendBundle\\" : "./"}
+    },
+    "require": {
+        "php": ">=5.4.0",
+        "truelab/kotti-model-bundle": "dev-master",
+        "symfony/assetic-bundle": "~2.3",
+        "sensio/framework-extra-bundle": "~3.0",
+        "symfony-cmf/routing-bundle": "~1.3",
+        "sunra/php-simple-html-dom-parser": "~1.5"
+
+    },
+    "require-dev": {
+        "symfony/symfony": "2.6.*",
+        "phpunit/phpunit": "4.4"
+    },
+    "scripts" : {
+        "test" : "vendor/bin/phpunit"
+    },
+    "repositories" : [
+        { "type":"git", "url":"https://bitbucket.org/truelab/kotti-model-bundle.git" }
+    ]
+}

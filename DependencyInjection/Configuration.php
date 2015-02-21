@@ -36,7 +36,6 @@ class Configuration implements ConfigurationInterface
                     ->treatNullLike('http://localhost:5000')
                     ->treatFalseLike('http://localhost:5000')
                     ->defaultValue('http://localhost:5000')
-                    ->isRequired()
                 ->end()
                 ->scalarNode('navigation_root_chooser')
                     ->defaultValue(null)
