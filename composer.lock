@@ -4,7 +4,7 @@
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "a99910d4678bc6755737c3484f823543",
+    "hash": "efc20ed0a5e8b4682f1b751ae7ade259",
     "packages": [
         {
             "name": "doctrine/annotations",
@@ -1214,7 +1214,7 @@
             "source": {
                 "type": "git",
                 "url": "https://bitbucket.org/truelab/kotti-model-bundle.git",
-                "reference": "1268234931ee37ae8d62f71d590ec285f4e3f0bf"
+                "reference": "80171e54844dd22b07e87ac8c360f04165db2d2e"
             },
             "require": {
                 "doctrine/doctrine-bundle": "~1.3",
@@ -1233,6 +1233,9 @@
             "scripts": {
                 "test": [
                     "vendor/bin/phpunit"
+                ],
+                "test-ci": [
+                    "vendor/bin/phpunit -c phpunit.ci.xml"
                 ]
             },
             "authors": [
@@ -1241,7 +1244,7 @@
                     "email": "ruben.barilani.dev@gmail.com"
                 }
             ],
-            "time": "2015-02-21 01:44:53"
+            "time": "2015-02-21 15:59:17"
         },
         {
             "name": "twig/twig",

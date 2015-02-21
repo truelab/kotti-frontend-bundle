@@ -25,7 +25,8 @@
         "phpunit/phpunit": "4.4"
     },
     "scripts" : {
-        "test" : "vendor/bin/phpunit"
+        "test" : "vendor/bin/phpunit",
+        "test-ci" : "vendor/bin/phpunit -c phpunit.ci.xml"
     },
     "repositories" : [
         { "type":"git", "url":"https://bitbucket.org/truelab/kotti-model-bundle.git" }
