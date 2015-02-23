@@ -8,6 +8,7 @@ use Truelab\KottiModelBundle\Model\NodeInterface;
  * Class TemplateApiTest
  * @package Truelab\KottiFrontendBundle\Tests\Util
  * @group unit
+ * @group only
  */
 class TemplateApiTest extends \PHPUnit_Framework_TestCase
 {
@@ -78,6 +79,34 @@ class TemplateApiTest extends \PHPUnit_Framework_TestCase
         }, $this->api->breadcrumbs());
 
         $this->assertEquals(['/','/en/', '/en/foo/', '/en/foo/bar/'], $breadcrumbsPath);
+    }
+
+    public function testImagePath()
+    {
+        $currentContext = $this
+            ->getMockBuilder('Truelab\KottiFrontendBundle\Services\CurrentContext')
+            ->enableProxyingToOriginalMethods()
+            ->disableOriginalConstructor()
+            ->getMock();
+
+        $currentContext->set($this->provideNode());
+
+        $imageNode = $this->getMock('Truelab\KottiModelBundle\Model\NodeInterface');
+
+        $imageNode
+            ->expects($this->any())
+            ->method('getPath')
+            ->willReturn('/images/foo/bar/');
+
+        $this->api = new TemplateApi(array(
+            'image_domain' => 'http://cms.admin.com/'
+        ), $currentContext);
+
+        $this->assertEquals('http://cms.admin.com/images/foo/image', $this->api->imagePath('/images/foo/'));
+        $this->assertEquals('http://cms.admin.com/images/foo/image/span1', $this->api->imagePath('/images/foo/', ['span'=>1]));
+
+        $this->assertEquals('http://cms.admin.com/images/foo/bar/image', $this->api->imagePath($imageNode));
+        $this->assertEquals('http://cms.admin.com/images/foo/bar/image/span10', $this->api->imagePath($imageNode, ['span'=>10]));
     }
 
     public function provideDomainPath()

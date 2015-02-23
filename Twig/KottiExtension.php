@@ -41,7 +41,8 @@ class KottiExtension extends \Twig_Extension
             new \Twig_SimpleFunction('kotti_path', array($this, 'path')),
             new \Twig_SimpleFunction('kotti_breadcrumbs', array($this, 'breadcrumbs')),
             new \Twig_SimpleFunction('kotti_active_link_class', array($this, 'activeLinkClass')),
-            new \Twig_SimpleFunction('kotti_option', array($this, 'option'))
+            new \Twig_SimpleFunction('kotti_option', array($this, 'option')),
+            new \Twig_SimpleFunction('kotti_image_path', array($this, 'imagePath')),
         );
     }
 
@@ -63,6 +64,11 @@ class KottiExtension extends \Twig_Extension
     public function path($context)
     {
         return $this->templateApi->path($context);
+    }
+
+    public function imagePath($context, $options = [])
+    {
+        return $this->templateApi->imagePath($context, $options);
     }
 
     public function activeLinkClass($link)

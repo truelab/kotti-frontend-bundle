@@ -52,6 +52,29 @@ class TemplateApi
         throw new \RuntimeException(sprintf('I can\'t generate a url for "%s"', get_class($context)));
     }
 
+    public function imagePath($context, array $options = [])
+    {
+        if(is_string($context)) {
+
+            $path = $this->imageDomain($context);
+
+        }elseif($context instanceof NodeInterface) {
+
+            $path = $this->imageDomain($context->getPath());
+        }else{
+
+            throw new \RuntimeException(sprintf('I can\'t generate a image url for "%s"', get_class($context)));
+        }
+
+        $path = rtrim($path, '/') . '/image';
+
+        if(isset($options['span'])) {
+            $path = $path . '/span' . $options['span'];
+        }
+
+        return $path;
+    }
+
     public function getConfig()
     {
         return $this->config;
@@ -138,6 +161,11 @@ class TemplateApi
     protected function frontendDomain($path)
     {
         return rtrim($this->config['domain'], '/') . $path;
+    }
+
+    protected function imageDomain($path)
+    {
+        return rtrim($this->config['image_domain'], '/') . $path;
     }
 
     protected static function startsWith($haystack, $needle, $case = false)
