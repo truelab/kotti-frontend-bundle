@@ -8,7 +8,6 @@ use Truelab\KottiModelBundle\Model\NodeInterface;
  * Class TemplateApiTest
  * @package Truelab\KottiFrontendBundle\Tests\Util
  * @group unit
- * @group only
  */
 class TemplateApiTest extends \PHPUnit_Framework_TestCase
 {
