@@ -79,15 +79,20 @@ class ContextFromRequest
             try {
 
                 $node = $this->repository->findByPath($path);
+
                 $data['lineage'][] = $node;
                 $data['context']   = $node;
 
             } catch (NodeByPathNotFoundException $e) {
+
+                if ( $data['context'] === null ) {
+                    throw new \Exception('Context from request NOT FOUND!!', 0, $e);
+                }
+
                 $data['action'] = ltrim(rtrim($segment, '/'), '/');
                 return $data;
             }
         }
-
 
         return $data;
     }
