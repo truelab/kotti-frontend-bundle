@@ -33,12 +33,22 @@ class Configuration implements ConfigurationInterface
                     ->defaultNull()
                 ->end()
                 ->scalarNode('image_domain')
+                    // FIXME
                     ->treatNullLike('http://localhost:5000')
                     ->treatFalseLike('http://localhost:5000')
                     ->defaultValue('http://localhost:5000')
                 ->end()
                 ->scalarNode('navigation_root_chooser')
                     ->defaultValue(null)
+                ->end()
+                ->arrayNode('navigable_context_types')
+                    ->defaultValue([
+                        'document' => true,
+                        'file'     => true,
+                        'image'    => true
+                    ])
+                    ->useAttributeAsKey('name')
+                    ->prototype('scalar')->treatNullLike(true)->end()
                 ->end()
                 ->arrayNode('options')
                     ->useAttributeAsKey('name')

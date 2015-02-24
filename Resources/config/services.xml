@@ -83,6 +83,7 @@
                  class="Truelab\KottiFrontendBundle\Services\ContextFromRequest">
             <argument type="service" id="truelab_kotti_model.alias_repository" />
             <argument type="service" id="truelab_kotti_frontend.services.current_context" />
+            <argument>%truelab_kotti_frontend.navigable_context_types%</argument>
         </service>
 
 

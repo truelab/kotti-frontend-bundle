@@ -28,6 +28,13 @@ class TruelabKottiFrontendExtension extends Extension implements PrependExtensio
             'image_domain' => $config['image_domain']
         );
 
+        $navigableContextTypes = array_merge([
+            'document' => true,
+            'file' => true,
+            'image' => true
+        ], $config['navigable_context_types']);
+        $config['navigable_context_types'] = $navigableContextTypes;
+
 
         $container->setParameter($this->getAlias() .'.navigation_root_chooser', $config['navigation_root_chooser']);
         $container->setParameter($this->getAlias() .'.default_layout', $config['default_layout']);
@@ -35,6 +42,7 @@ class TruelabKottiFrontendExtension extends Extension implements PrependExtensio
         $container->setParameter($this->getAlias() .'.template_api_config', $templateApiConfig);
         $container->setParameter($this->getAlias() .'.template_options', $config['options']);
         $container->setParameter($this->getAlias() .'.image_domain', $config['image_domain']);
+        $container->setParameter($this->getAlias() .'.navigable_context_types', $config['navigable_context_types']);
 
         $loader = new Loader\XmlFileLoader($container, new FileLocator(__DIR__.'/../Resources/config'));
         $loader->load('services.xml');
@@ -47,7 +55,7 @@ class TruelabKottiFrontendExtension extends Extension implements PrependExtensio
      */
     public function prepend(ContainerBuilder $container)
     {
-        $config = array(
+        $cmfRoutingConfig = array(
             'chain' => array(
                 'routers_by_id' => array(
                     'cmf_routing.dynamic_router' => 100,
@@ -69,7 +77,7 @@ class TruelabKottiFrontendExtension extends Extension implements PrependExtensio
                     // acme_something and acme_other note that if the user manually
                     // configured use_acme_goodbye to true in the app/config/config.yml
                     // then the setting would in the end be true and not false
-                    $container->prependExtensionConfig($name, $config);
+                    $container->prependExtensionConfig($name, $cmfRoutingConfig);
                     break;
             }
         }

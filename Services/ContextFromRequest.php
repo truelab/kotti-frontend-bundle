@@ -1,10 +1,10 @@
 <?php
 
 namespace Truelab\KottiFrontendBundle\Services;
-use Symfony\Component\CssSelector\Node\NodeInterface;
+
 use Symfony\Component\HttpFoundation\Request;
-use Truelab\KottiFrontendBundle\ParamConverter\NodePathParamConverter;
 use Truelab\KottiModelBundle\Exception\NodeByPathNotFoundException;
+use Truelab\KottiModelBundle\Model\NodeInterface;
 use Truelab\KottiModelBundle\Repository\RepositoryInterface;
 
 
@@ -16,11 +16,13 @@ class ContextFromRequest
 {
     private $currentContext;
     private $repository;
+    private $navigableTypes;
 
-    public function __construct(RepositoryInterface $repository, CurrentContext $currentContext)
+    public function __construct(RepositoryInterface $repository, CurrentContext $currentContext, array $navigableTypes = [])
     {
-        $this->repository = $repository;
+        $this->repository     = $repository;
         $this->currentContext = $currentContext;
+        $this->navigableTypes = $navigableTypes;
     }
 
     public function find(Request $request)
@@ -89,7 +91,21 @@ class ContextFromRequest
                     throw new \Exception('Context from request NOT FOUND!!', 0, $e);
                 }
 
+                if( $data['context'] instanceof NodeInterface ) {
+                    if( $this->isNavigableContext($data['context']) === false ) {
+                        $data['context'] = null;
+                        return $data;
+                    }
+                }
+
                 $data['action'] = ltrim(rtrim($segment, '/'), '/');
+                return $data;
+            }
+        }
+
+        if( $data['context'] instanceof NodeInterface ) {
+            if( $this->isNavigableContext($data['context']) === false ) {
+                $data['context'] = null;
                 return $data;
             }
         }
@@ -97,4 +113,20 @@ class ContextFromRequest
         return $data;
     }
 
+
+    public function isNavigableContext(NodeInterface $context)
+    {
+        if(empty($this->navigableTypes)) {
+            return true;
+        }
+
+        $contextType = $context->getType();
+        foreach($this->navigableTypes as $type => $flag) {
+            if($contextType === $type && $flag === true ) {
+                return true;
+            }
+        }
+
+        return false;
+    }
 }
