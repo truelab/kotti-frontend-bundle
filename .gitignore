@@ -1,4 +1,5 @@
-/vendor/
+vendor
 composer.phar
-
-/build/
+composer.lock
+phpunit.xml
+build

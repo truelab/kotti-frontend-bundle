@@ -128,7 +128,20 @@ class TemplateApiTest extends \PHPUnit_Framework_TestCase
     public function provideNode()
     {
         $class = 'Truelab\KottiModelBundle\Model\NodeInterface';
-        $methods = array('hasParent','getParent','getPath','equals','getChildren','hasChildren','setRepository','getId','getType','isLeaf','getSiblings');
+        $methods = array(
+            'hasParent',
+            'getParent',
+            'getPath',
+            'equals',
+            'getChildren',
+            'hasChildren',
+            'setRepository',
+            'getId',
+            'getType',
+            'isLeaf',
+            'getSiblings',
+            'getAnnotations'
+        );
 
 
         $leaf    = $this->getMock($class, $methods);
