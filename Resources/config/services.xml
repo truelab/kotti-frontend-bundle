@@ -105,5 +105,8 @@
             <tag name="truelab_kotti_frontend.html_processor" />
         </service>
 
+        <!-- TREE FACTORY -->
+        <service id="truelab_kotti_frontend.tree_factory" class="Truelab\KottiFrontendBundle\Tree\TreeFactory"/>
+
     </services>
 </container>
