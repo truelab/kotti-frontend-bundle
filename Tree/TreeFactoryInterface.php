@@ -13,7 +13,7 @@ interface TreeFactoryInterface
      * @param NodeInterface[]|NodeInterface $nodes
      * @param callable $getChildren
      *
-     * @return mixed
+     * @return NodeProxy[]|NodeProxy
      */
     public static function createProxy($nodes, callable $getChildren);
 
