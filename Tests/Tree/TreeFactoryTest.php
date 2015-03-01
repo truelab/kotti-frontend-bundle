@@ -35,6 +35,34 @@ class TreeFactoryTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals('/b/d/g/l/', $lTreeLeaf->getValue()->getPath());
     }
 
+    public function testGetTreeMaxDepth0()
+    {
+        $rootMock = $this->getRootNodeMock();
+
+        $treeRoot = TreeFactory::getTree($rootMock, function (NodeInterface $nodeMock) {
+            return $nodeMock->getChildren();
+        }, 0);
+
+        $this->assertTrue($treeRoot->isRoot(), 'I expect that current tree node is root');
+        $this->assertCount(0, $treeRoot->getChildren());
+        $this->assertEquals($rootMock->getPath(), $treeRoot->getValue()->getPath());
+    }
+
+    public function testGetTreeMaxDepth1()
+    {
+        $rootMock = $this->getRootNodeMock();
+        $rootMockChildren = $rootMock->getChildren();
+
+        $treeRoot = TreeFactory::getTree($rootMock, function (NodeInterface $nodeMock) {
+            return $nodeMock->getChildren();
+        }, 1);
+
+        $this->assertTrue($treeRoot->isRoot(), 'I expect that current tree node is root');
+        $this->assertCount(count($rootMockChildren), $treeRoot->getChildren());
+        $this->assertEquals($rootMockChildren[0]->getPath(), $treeRoot->getChildren()[0]->getValue()->getPath());
+
+    }
+
     /**
      * @expectedException \Truelab\KottiFrontendBundle\Tree\Exception\GetChildrenCallbackException
      */

@@ -108,15 +108,40 @@ class TreeFactory implements  TreeFactoryInterface
      * @param NodeInterface $node
      * @param NodeBuilderInterface $builder
      * @param int $depth
+     *
      */
     protected static function traverseTree(array $children, callable $getChildren, $maxDepth, &$rootNodes = [], NodeInterface $node, NodeBuilderInterface &$builder, $depth = 0)
     {
+
+        /**
+         * if max depth = 0, also if it does not really make sense,
+         * adds root node only and return
+         */
+        if($maxDepth === 0) {
+            $builder->value($node);
+            return;
+        }
 
         if($maxDepth === $depth) {
             return;
         }
 
         $depth++;
+
+        /**
+         * if max depth is 1, we don't need recursion.
+         * adds root node and its leafs and return
+         */
+        if($maxDepth === 1) {
+
+            $builder->value($node);
+
+            foreach($children as $child)
+            {
+                $builder->leaf($child);
+            }
+            return;
+        }
 
         /**
          * @var $child NodeInterface
