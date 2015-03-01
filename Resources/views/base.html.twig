@@ -1,36 +1,31 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <meta charset="UTF-8"/>
+    <meta charset="UTF-8">
     <title>{% block title %}{{ kotti_option('site_prefix') }}{{ context is defined ? context.title : '' }}{% endblock %}</title>
 
-    {% if context is defined and context.language is defined %}
-        <meta lang="{{ context.language }}">
-    {% endif %}
-
-    <!-- FIXME -->
-    <style>
-        body {
-            min-height: 200px;
-        }
-
-        nav#nav-children {
-            display: block;
-            height: 100%;
-            padding:0;
-        }
-
-        nav#nav-children ul {
-            list-style:none;
-        }
-
-        nav#nav-children > ul {
-            margin: 0;
-            padding: 0;
-        }
-    </style>
-
     {% block stylesheets %}
+        <!-- FIXME -->
+        <style>
+            body {
+                min-height: 200px;
+            }
+
+            nav#nav-children {
+                display: block;
+                height: 100%;
+                padding:0;
+            }
+
+            nav#nav-children ul {
+                list-style:none;
+            }
+
+            nav#nav-children > ul {
+                margin: 0;
+                padding: 0;
+            }
+        </style>
         <link href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css" rel="stylesheet">
     {% endblock %}
 
