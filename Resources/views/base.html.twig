@@ -34,7 +34,7 @@
     {% endblock %}
 </head>
 
-<body>
+<body class="{% block body_class %}{% endblock %}">
     {% import 'TruelabKottiFrontendBundle::macros.html.twig' as  kotti_macro %}
     {% block body %}{% endblock %}
     {% block javascripts %}{% endblock %}
