@@ -13,7 +13,12 @@ class BodyProcessorManager extends AbstractBodyProcessorManager
 {
     public function process($input)
     {
+        if(!$input) {
+            return $input;
+        }
+
         $html = HtmlDomParser::str_get_html($input);
+
         /**
          * @var BodyProcessorInterface $processor
          */
