@@ -133,6 +133,11 @@ class TemplateApi
         return $breadcrumbs;
     }
 
+    public function getTypeClass(NodeInterface $context)
+    {
+        return str_replace('_', '-', $context->getType());
+    }
+
     public function isActiveLink(NodeInterface $link)
     {
         $context = $this->getContext();
