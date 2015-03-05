@@ -30,6 +30,6 @@
         "test-ci" : "vendor/bin/phpunit -c phpunit.ci.xml"
     },
     "repositories" : [
-        { "type":"git", "url":"https://bitbucket.org/truelab/kotti-model-bundle.git" }
+        { "type":"git", "url":"https://github.com/truelab/kotti-model-bundle.git" }
     ]
 }
