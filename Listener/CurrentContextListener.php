@@ -40,7 +40,7 @@ class CurrentContextListener
     public function onKernelRequest(GetResponseEvent $event)
     {
 
-        $this->twigEnvironment->addGlobal('layout', $this->defaultLayout);
+        $this->twigEnvironment->addGlobal('layout', $this->defaultLayout); // FIXME layout listener
 
         if (HttpKernelInterface::MASTER_REQUEST !== $event->getRequestType()) {
             return;
@@ -48,11 +48,21 @@ class CurrentContextListener
 
         $request = $event->getRequest();
 
-        if ($request->attributes->has('context')) {
-            // set a global twig variables
+        if (!$this->currentContext->get()) {
+            return;
+        }
+
+
+        if ($this->currentContext->get()) {
+
+            // set a request attribute
+            $request->attributes->set('context', $this->currentContext->get());
+
+            // set a global twig variable
             $this->twigEnvironment->addGlobal('context', $this->currentContext->get());
             return;
         }
+
 
         $data = $this->contextFromRequest->find($request);
 
@@ -63,10 +73,10 @@ class CurrentContextListener
             // set current context
             $this->currentContext->set($context);
 
-            // set a request attributes
+            // set a request attribute
             $request->attributes->set('context', $this->currentContext->get());
 
-            // set a global twig variables
+            // set a global twig variable
             $this->twigEnvironment->addGlobal('context', $this->currentContext->get());
         }
 

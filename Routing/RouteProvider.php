@@ -48,8 +48,8 @@ class RouteProvider implements RouteProviderInterface
      */
     public function getRouteCollectionForRequest(Request $request)
     {
-        $data = $this->contextFromRequest->find($request);
 
+        $data = $this->contextFromRequest->find($request);
 
         if(!$data) {
             return [];

@@ -27,12 +27,14 @@ class ContextFromRequest
 
     public function find(Request $request)
     {
+
         $path = $request->getPathInfo();
         $data = $this->dataFromPathInfo($path);
 
         if(!$data['context']) {
             return null;
         }
+
         // set current context
         $this->currentContext->set($data['context']);
 
