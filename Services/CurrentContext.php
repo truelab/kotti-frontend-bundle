@@ -99,8 +99,12 @@ class CurrentContext
      *
      * @return NodeInterface[]
      */
-    protected function flatParents(NodeInterface $node, &$flat = array())
+    protected function flatParents(NodeInterface $node = null, &$flat = array())
     {
+        if(!$node) {
+            return $flat;
+        }
+
         if($node->hasParent()) {
             $parent = $node->getParent();
             $flat[] = $parent;

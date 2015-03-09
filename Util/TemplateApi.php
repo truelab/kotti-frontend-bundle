@@ -109,7 +109,7 @@ class TemplateApi
         $breadcrumbs = array_reverse($this->lineage());
         $context = $this->currentContext->get();
 
-        if($context->equals($this->navigationRoot())) {
+        if(!$context || $context->equals($this->navigationRoot())) {
             return [];
         }
 
@@ -141,7 +141,7 @@ class TemplateApi
     public function isActiveLink(NodeInterface $link)
     {
         $context = $this->getContext();
-        return $this->startsWith($context->getPath(), $link->getPath());
+        return $context && $this->startsWith($context->getPath(), $link->getPath());
     }
 
     public function activeLinkClass(NodeInterface $link)
