@@ -191,6 +191,30 @@ class TreeFactory implements  TreeFactoryInterface
         }
     }
 
+    public static function getLineageTree(array $lineage, $context)
+    {
+        $builder = self::createTreeBuilder();
+        $reverse = array_reverse($lineage);
+
+        array_push($reverse, $context);
+
+        foreach($reverse as $index => $node) {
+            if($index === 0) {
+                $builder->value($node);
+            }
+
+            if($index > 0 && $index <= count($lineage) - 1) {
+                $builder->tree($node);
+            }
+
+            if($index > 0 && $index === count($lineage)) {
+                $builder->leaf($node);
+            }
+        }
+
+        return $builder->getNode()->getChildren()[0];
+    }
+
     /**
      * @return NodeBuilderInterface
      */

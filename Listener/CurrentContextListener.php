@@ -54,12 +54,7 @@ class CurrentContextListener
 
 
         if ($this->currentContext->get()) {
-
-            // set a request attribute
-            $request->attributes->set('context', $this->currentContext->get());
-
-            // set a global twig variable
-            $this->twigEnvironment->addGlobal('context', $this->currentContext->get());
+            $this->addGlobals($request);
             return;
         }
 
@@ -73,13 +68,23 @@ class CurrentContextListener
             // set current context
             $this->currentContext->set($context);
 
-            // set a request attribute
-            $request->attributes->set('context', $this->currentContext->get());
-
-            // set a global twig variable
-            $this->twigEnvironment->addGlobal('context', $this->currentContext->get());
+            $this->addGlobals($request);
         }
 
+    }
+
+    protected function addGlobals($request)
+    {
+        // set a request attribute
+        $request->attributes->set('context', $this->currentContext->get());
+
+        // add context as global twig variable
+        $this->twigEnvironment->addGlobal('context', $this->currentContext->get());
+
+        // add lineage tree as twig variable
+        $this->twigEnvironment->addGlobal('context_lineage', $this->currentContext->lineageTree());
+
+        return;
     }
 
 }

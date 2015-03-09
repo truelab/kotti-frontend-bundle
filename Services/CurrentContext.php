@@ -1,6 +1,7 @@
 <?php
 
 namespace Truelab\KottiFrontendBundle\Services;
+use Truelab\KottiFrontendBundle\Tree\TreeFactory;
 use Truelab\KottiModelBundle\Model\NodeInterface;
 
 /**
@@ -23,6 +24,11 @@ class CurrentContext
      * @var NodeInterface[]
      */
     private $lineage;
+
+    /**
+     * @var \Tree\Node\NodeInterface
+     */
+    private $lineageTree;
 
     public function __construct(NavigationRootChooserInterface $navigationRootChooser = null)
     {
@@ -78,6 +84,18 @@ class CurrentContext
         }
 
         return $this->root();
+    }
+
+    /**
+     * @return \Tree\Node\NodeInterface
+     */
+    public function lineageTree()
+    {
+        if($this->lineageTree) {
+            return $this->lineageTree;
+        }else{
+            return TreeFactory::getLineageTree($this->lineage(), $this->get());
+        }
     }
 
     /**

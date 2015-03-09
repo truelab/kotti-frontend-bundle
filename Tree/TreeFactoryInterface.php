@@ -25,4 +25,13 @@ interface TreeFactoryInterface
      * @return \Tree\Node\NodeInterface
      */
     public static function getTree(NodeInterface $node, callable $getChildren, $maxDepth = 10);
+
+    /**
+     * @param array $lineage
+     *
+     * @param $context
+     *
+     * @return \Tree\Node\NodeInterface
+     */
+    public static function getLineageTree(array $lineage, $context);
 }
