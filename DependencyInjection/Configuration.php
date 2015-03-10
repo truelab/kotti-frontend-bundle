@@ -43,9 +43,7 @@ class Configuration implements ConfigurationInterface
                 ->end()
                 ->arrayNode('navigable_context_types')
                     ->defaultValue([
-                        'document' => true,
-                        'file'     => true,
-                        'image'    => true
+                        'document' => true
                     ])
                     ->useAttributeAsKey('name')
                     ->prototype('scalar')->treatNullLike(true)->end()

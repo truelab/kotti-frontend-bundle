@@ -75,6 +75,34 @@ class TemplateApi
         return $path;
     }
 
+    public function filePath($context, array $options = [])
+    {
+        $opt = array_merge([
+            'download' => true
+        ], $options);
+
+        if(!$context) {
+            return $context;
+        }
+
+        if(is_string($context)) {
+            return $context;
+        }
+
+        if($context instanceof NodeInterface) {
+            $url = $this->imageDomain($context->getPath());
+
+            if($opt['download']) {
+                $url = rtrim($url, '/') . '/@@attachment-view';
+            }
+
+            return $url;
+
+        }else{
+            throw new \RuntimeException(sprintf('I can\'t generate a file url for "%s"', get_class($context)));
+        }
+    }
+
     public function getConfig()
     {
         return $this->config;

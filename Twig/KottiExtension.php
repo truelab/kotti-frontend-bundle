@@ -43,6 +43,7 @@ class KottiExtension extends \Twig_Extension
             new \Twig_SimpleFunction('kotti_active_link_class', array($this, 'activeLinkClass')),
             new \Twig_SimpleFunction('kotti_option', array($this, 'option')),
             new \Twig_SimpleFunction('kotti_image_path', array($this, 'imagePath')),
+            new \Twig_SimpleFunction('kotti_file_path', array($this, 'filePath')),
             new \Twig_SimpleFunction('kotti_type_class', function ($input) {
                 return $this->templateApi->getTypeClass($input);
             })
@@ -72,6 +73,11 @@ class KottiExtension extends \Twig_Extension
     public function imagePath($context, $options = [])
     {
         return $this->templateApi->imagePath($context, $options);
+    }
+
+    public function filePath($context)
+    {
+        return $this->templateApi->filePath($context);
     }
 
     public function activeLinkClass($link)

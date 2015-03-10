@@ -29,9 +29,7 @@ class TruelabKottiFrontendExtension extends Extension implements PrependExtensio
         );
 
         $navigableContextTypes = array_merge([
-            'document' => true,
-            'file' => true,
-            'image' => true
+            'document' => true
         ], $config['navigable_context_types']);
         $config['navigable_context_types'] = $navigableContextTypes;
 
