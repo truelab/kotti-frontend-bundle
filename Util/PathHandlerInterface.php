@@ -18,7 +18,9 @@ interface PathHandlerInterface
     /**
      * @param $context
      *
+     * @param TemplateApi $templateApi
+     *
      * @return string
      */
-    public function getPath($context);
+    public function getPath($context, TemplateApi $templateApi);
 }

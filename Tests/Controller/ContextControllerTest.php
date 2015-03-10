@@ -8,7 +8,7 @@ use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
  * @package Truelab\KottiFrontendBundle\Tests\Controller
  * @group functional
  */
-class ContextControllerTest extends WebTestCase
+abstract class ContextControllerTest extends WebTestCase
 {
     /**
      * @dataProvider providePaths

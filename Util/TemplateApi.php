@@ -41,7 +41,7 @@ class TemplateApi
 
         foreach($this->pathHandlers as $pathHandler) {
             if($pathHandler->support($context)) {
-                return $this->frontendDomain($pathHandler->getPath($context));
+                return $pathHandler->getPath($context, $this);
             }
         }
 
@@ -191,12 +191,12 @@ class TemplateApi
         return $default;
     }
 
-    protected function frontendDomain($path)
+    public function frontendDomain($path)
     {
         return rtrim($this->config['domain'], '/') . $path;
     }
 
-    protected function imageDomain($path)
+    public function imageDomain($path)
     {
         return rtrim($this->config['image_domain'], '/') . $path;
     }
