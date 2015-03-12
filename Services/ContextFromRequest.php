@@ -75,7 +75,7 @@ class ContextFromRequest
         $data = [
             'lineage' => [],
             'context' => null,
-            'action'  => 'view'
+            'name'  => 'view'
         ];
 
         foreach($paths as $segment => $path) {
@@ -100,7 +100,7 @@ class ContextFromRequest
                     }
                 }
 
-                $data['action'] = ltrim(rtrim($segment, '/'), '/');
+                $data['name'] = ltrim(rtrim($segment, '/'), '/');
                 return $data;
             }
         }

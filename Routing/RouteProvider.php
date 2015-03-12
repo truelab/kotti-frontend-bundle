@@ -7,6 +7,8 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Exception\RouteNotFoundException;
 use Symfony\Component\Routing\Route;
 use Truelab\KottiFrontendBundle\Services\ContextFromRequest;
+
+use Truelab\KottiModelBundle\Model\ContentInterface;
 use Truelab\KottiModelBundle\Model\NodeInterface;
 
 /**
@@ -60,31 +62,34 @@ class RouteProvider implements RouteProviderInterface
          */
         $context = $data['context'];
 
+        // with /
         $route = new Route($context->getPath(), array(
             'type'        => $context->getType(),
             'context'     => $context
         ));
 
+        // or without /
         $route_ = new Route(rtrim($context->getPath(),'/'), array(
             'type'        => $context->getType(),
             'context'     => $context
         ));
 
-        $route_action = new Route($context->getPath() . $data['action'], array(
-            'type'        => $context->getType(),
-            'context'     => $context
-        ));
-
-        $route_action_ = new Route($context->getPath() . $data['action'] . '/', array(
-            'type'        => $context->getType(),
-            'context'     => $context
-        ));
+// TODO match route with name /path/to/node/<name>
+//        $route_with_name = new Route($context->getPath() . $data['name'], array(
+//            'type'        => $context->getType(),
+//            'context'     => $context
+//        ));
+//
+//        $route_with_name = new Route($context->getPath() . $data['name'] . '/', array(
+//            'type'        => $context->getType(),
+//            'context'     => $context
+//        ));
 
         $collection = new RouteCollection();
         $collection->add('truelab_kotti_frontend_node_' . $context->getId(), $route);
         $collection->add('truelab_kotti_frontend_node_' . $context->getId() .'_', $route_);
-        $collection->add('truelab_kotti_frontend_node_' . $context->getId() .'_'. $data['action'] , $route_action);
-        $collection->add('truelab_kotti_frontend_node_' . $context->getId() .'_'. $data['action']. '_' , $route_action_);
+        //$collection->add('truelab_kotti_frontend_node_' . $context->getId() .'_'. $data['name'] , $route_with_name);
+        //$collection->add('truelab_kotti_frontend_node_' . $context->getId() .'_'. $data['name']. '_' , $route_with_name);
 
         return $collection;
     }
@@ -101,6 +106,7 @@ class RouteProvider implements RouteProviderInterface
      */
     public function getRouteByName($name)
     {
+        // NOT USED!!!
         throw new RouteNotFoundException;
     }
 
@@ -130,7 +136,7 @@ class RouteProvider implements RouteProviderInterface
      */
     public function getRoutesByNames($names)
     {
-        // TODO: Implement getRoutesByNames() method.
+        // NOT USED!!!
         return [];
     }
 }
