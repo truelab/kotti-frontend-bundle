@@ -194,11 +194,16 @@ class TreeFactory implements  TreeFactoryInterface
     public static function getLineageTree(array $lineage, $context)
     {
         $builder = self::createTreeBuilder();
-        $reverse = array_reverse($lineage);
+        $reverseLineage = array_reverse($lineage);
 
-        array_push($reverse, $context);
+        array_push($reverseLineage, $context);
 
-        foreach($reverse as $index => $node) {
+        if(count($reverseLineage) === 1) {
+            $builder->value($reverseLineage[0]);
+            return $builder->getNode();
+        }
+
+        foreach($reverseLineage as $index => $node) {
             if($index === 0) {
                 $builder->value($node);
             }

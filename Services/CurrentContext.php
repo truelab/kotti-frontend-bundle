@@ -94,7 +94,8 @@ class CurrentContext
         if($this->lineageTree) {
             return $this->lineageTree;
         }else{
-            return TreeFactory::getLineageTree($this->lineage(), $this->get());
+            $this->lineageTree = TreeFactory::getLineageTree($this->lineage(), $this->get());
+            return $this->lineageTree();
         }
     }
 
