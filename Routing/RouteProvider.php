@@ -6,6 +6,7 @@ use Symfony\Component\Routing\RouteCollection;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Exception\RouteNotFoundException;
 use Symfony\Component\Routing\Route;
+use Truelab\KottiFrontendBundle\Routing\ViewConfig\ViewConfigManager;
 use Truelab\KottiFrontendBundle\Services\ContextFromRequest;
 
 use Truelab\KottiModelBundle\Model\ContentInterface;
@@ -22,9 +23,15 @@ class RouteProvider implements RouteProviderInterface
      */
     private $contextFromRequest;
 
-    public function __construct(ContextFromRequest $contextFromRequest)
+    /**
+     * @var ViewConfigManager
+     */
+    private $viewConfigManager;
+
+    public function __construct(ContextFromRequest $contextFromRequest, ViewConfigManager $viewConfigManager)
     {
         $this->contextFromRequest = $contextFromRequest;
+        $this->viewConfigManager = $viewConfigManager;
     }
     /**
      * Finds routes that may potentially match the request.
@@ -61,6 +68,31 @@ class RouteProvider implements RouteProviderInterface
          * @var NodeInterface $context
          */
         $context = $data['context'];
+
+        if($context instanceof ContentInterface) {
+
+            if($viewConfig = $this->viewConfigManager->match($context)) {
+
+                $route = new Route($context->getPath(), array(
+                    'context'     => $context,
+                    '_controller' => $viewConfig->getController()
+                ));
+
+                // or without /
+                $route_ = new Route(rtrim($context->getPath(),'/'), array(
+                    'context'     => $context,
+                    '_controller' => $viewConfig->getController()
+                ));
+
+                $collection = new RouteCollection();
+                $collection->add('truelab_kotti_frontend_node_' . $context->getId(), $route);
+                $collection->add('truelab_kotti_frontend_node_' . $context->getId() .'_', $route_);
+
+                return $collection;
+            }
+        }
+
+
 
         // with /
         $route = new Route($context->getPath(), array(

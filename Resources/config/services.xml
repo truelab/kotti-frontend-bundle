@@ -90,6 +90,14 @@
         <!-- ROUTE PROVIDER -->
         <service id="truelab_kotti_frontend.route_provider" class="Truelab\KottiFrontendBundle\Routing\RouteProvider">
             <argument type="service" id="truelab_kotti_frontend.services.context_from_request" />
+            <argument type="service" id="truelab_kotti_frontend.view_config_manager" />
+        </service>
+
+        <!-- VIEW CONFIG MANAGER -->
+        <service id="truelab_kotti_frontend.view_config_manager"
+            class="Truelab\KottiFrontendBundle\Routing\ViewConfig\ViewConfigManager">
+            <argument type="service" id="annotations.file_cache_reader" />
+            <argument>%truelab_kotti_frontend.view_config_controllers%</argument>
         </service>
 
 
