@@ -97,6 +97,7 @@
         <service id="truelab_kotti_frontend.view_config_manager"
             class="Truelab\KottiFrontendBundle\Routing\ViewConfig\ViewConfigManager">
             <argument type="service" id="annotations.file_cache_reader" />
+            <argument type="service" id="truelab_kotti_frontend.services.current_context" />
             <argument>%truelab_kotti_frontend.view_config_controllers%</argument>
         </service>
 

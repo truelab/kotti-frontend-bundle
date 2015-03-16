@@ -4,6 +4,7 @@ namespace Truelab\KottiFrontendBundle\Routing\ViewConfig;
 
 use Doctrine\Common\Annotations\Reader;
 use ReflectionMethod;
+use Truelab\KottiFrontendBundle\Services\CurrentContext;
 use Truelab\KottiModelBundle\Model\ContentInterface;
 
 /**
@@ -16,6 +17,11 @@ class ViewConfigManager
      * @var Reader
      */
     private $annotationReader;
+
+    /**
+     * @var CurrentContext
+     */
+    private $currentContext;
 
     /**
      * @var array
@@ -33,10 +39,11 @@ class ViewConfigManager
     private $viewConfigs = [];
 
 
-    public function __construct(Reader $annotationReader, array $viewConfigControllers = [])
+    public function __construct(Reader $annotationReader, CurrentContext $currentContext, array $viewConfigControllers = [])
     {
         $this->annotationReader = $annotationReader;
         $this->controllers = $viewConfigControllers;
+        $this->currentContext = $currentContext;
 
 
         $this->read();
@@ -64,6 +71,11 @@ class ViewConfigManager
         }
     }
 
+    private function getLineage()
+    {
+        return $this->currentContext->lineageTree();
+    }
+
     /**
      * @param ContentInterface $content
      *
@@ -72,6 +84,9 @@ class ViewConfigManager
     public function match(ContentInterface $content)
     {
         $name = $content->getDefaultView();
+        $type = $content->getType();
+        $parentType =  $this->getLineage()->getParent()
+        && $this->getLineage()->getParent()->getValue() ? $this->getLineage()->getParent()->getValue()->getType() : null;
 
         if(null !== $name) {
             foreach($this->viewConfigs as $viewConfig) {
@@ -81,6 +96,17 @@ class ViewConfigManager
             }
         }
 
+
+
+        if(null !== $type && null !== $parentType) {
+            foreach($this->viewConfigs as $viewConfig) {
+                if($viewConfig->getParentType() === $parentType && $viewConfig->getType() === $type) {
+                    return $viewConfig;
+                }
+            }
+        }
+
         return null;
     }
+
 }

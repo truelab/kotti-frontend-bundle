@@ -29,6 +29,16 @@ class ViewConfig
         return isset($this->options['name']) ? $this->options['name'] : null;
     }
 
+    public function getType()
+    {
+        return isset($this->options['context']) ? $this->options['context'] : null;
+    }
+
+    public function getParentType()
+    {
+        return isset($this->options['parent']) ? $this->options['parent'] : null;
+    }
+
     public function setController($controller)
     {
         $this->controller =  $controller;
