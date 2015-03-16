@@ -88,16 +88,17 @@ class ViewConfigManager
         $parentType =  $this->getLineage()->getParent()
         && $this->getLineage()->getParent()->getValue() ? $this->getLineage()->getParent()->getValue()->getType() : null;
 
+        // BY VIEW NAME AND TYPE
         if(null !== $name) {
             foreach($this->viewConfigs as $viewConfig) {
-                if($viewConfig->getName() === $name) {
+                if($viewConfig->getName() === $name
+                    && $viewConfig->getType() === $type) {
                     return $viewConfig;
                 }
             }
         }
 
-
-
+        // BY TYPE AND BY PARENT TYPE
         if(null !== $type && null !== $parentType) {
             foreach($this->viewConfigs as $viewConfig) {
                 if($viewConfig->getParentType() === $parentType && $viewConfig->getType() === $type) {
