@@ -18,7 +18,8 @@
         "sensio/framework-extra-bundle": "~3.0",
         "symfony-cmf/routing-bundle": "~1.3",
         "sunra/php-simple-html-dom-parser": "~1.5",
-        "nicmart/tree": "0.2.*"
+        "nicmart/tree": "0.2.*",
+        "white-october/pagerfanta-bundle": "~1.0"
 
     },
     "require-dev": {
