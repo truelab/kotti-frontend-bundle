@@ -106,8 +106,9 @@ class KottiExtension extends \Twig_Extension
             $viewName = $this->container->getParameter('white_october_pagerfanta.default_view');
         }
 
-        if(isset($options['context']) && $options['context'] instanceof NodeInterface) {
-            $context = $options;
+
+        if(isset($options['context'])) {
+            $context = $options['context'];
         }else{
             $context = ''; // FIXME
         }
