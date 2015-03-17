@@ -2,6 +2,7 @@
 <html>
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{% block title_prefix %} {{ kotti_option('site_prefix') }} {% endblock %}{% block title %}{{ context is defined ? context.title : '' }}{% endblock %}</title>
     <meta name="description" content="{% block description %}{{ context is defined and context.description ? context.description : kotti_option('site_description') }}{% endblock %}">
 
