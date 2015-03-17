@@ -33,23 +33,38 @@ class TemplateApi
         $this->pathHandlers[] = $pathHandler;
     }
 
-    public function path($context)
+    public function path($context, $parameters = [])
     {
+        $url = null;
+
         if (is_string($context)) {
-            return $this->frontendDomain($context);
+            $url = $this->frontendDomain($context);
         }
 
         foreach($this->pathHandlers as $pathHandler) {
             if($pathHandler->support($context)) {
-                return $pathHandler->getPath($context, $this);
+                $url = $pathHandler->getPath($context, $this);
+                break;
             }
         }
 
-        if ($context instanceof NodeInterface) {
-            return $this->frontendDomain($context->getPath());
+        if($url === null) {
+            if ($context instanceof NodeInterface) {
+                $url = $this->frontendDomain($context->getPath());
+            }else{
+                throw new \RuntimeException(sprintf('I can\'t generate a url for "%s"', get_class($context)));
+            }
         }
 
-        throw new \RuntimeException(sprintf('I can\'t generate a url for "%s"', get_class($context)));
+        // add a query string if needed
+        $extra = $parameters; //FIXME
+        if ($extra && $query = http_build_query($extra, '', '&')) {
+            // "/" and "?" can be left decoded for better user experience, see
+            // http://tools.ietf.org/html/rfc3986#section-3.4
+            $url .= '?'.strtr($query, array('%2F' => '/'));
+        }
+
+        return $url;
     }
 
     public function imagePath($context, array $options = [])

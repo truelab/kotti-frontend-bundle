@@ -57,6 +57,8 @@ class TemplateApiTest extends \PHPUnit_Framework_TestCase
             ->willReturn('/en/mip/');
 
         $this->assertEquals($path, $this->api->path($context));
+
+        $this->assertEquals($path . '?page=1&color=red', $this->api->path($context, array('page' => 1, 'color'=> 'red')));
     }
 
     public function testBreadcrumbs()

@@ -1,6 +1,10 @@
 <?php
 
 namespace Truelab\KottiFrontendBundle\Twig;
+use Pagerfanta\PagerfantaInterface;
+use Symfony\Component\CssSelector\Node\NodeInterface;
+use Symfony\Component\DependencyInjection\ContainerAwareInterface;
+use Symfony\Component\DependencyInjection\ContainerInterface;
 use Truelab\KottiFrontendBundle\BodyProcessor\BodyProcessorManagerInterface;
 use Truelab\KottiFrontendBundle\Util\TemplateApi;
 use Truelab\KottiModelBundle\Util\ModelUtil;
@@ -15,10 +19,15 @@ class KottiExtension extends \Twig_Extension
 
     private $bodyProcessor;
 
-    public function __construct(TemplateApi $templateApi, BodyProcessorManagerInterface $bodyProcessor)
+    private $container;
+
+    public function __construct(TemplateApi $templateApi,
+                                BodyProcessorManagerInterface $bodyProcessor,
+                                ContainerInterface $container)
     {
-        $this->templateApi = $templateApi;
+        $this->templateApi   = $templateApi;
         $this->bodyProcessor = $bodyProcessor;
+        $this->container     = $container;
     }
 
     public function getFilters()
@@ -46,7 +55,8 @@ class KottiExtension extends \Twig_Extension
             new \Twig_SimpleFunction('kotti_file_path', array($this, 'filePath')),
             new \Twig_SimpleFunction('kotti_type_class', function ($input) {
                 return $this->templateApi->getTypeClass($input);
-            })
+            }),
+            new \Twig_SimpleFunction('kotti_pagerfanta', array($this, 'renderPagerfanta'),  array('is_safe' => array('html')))
         );
     }
 
@@ -65,9 +75,9 @@ class KottiExtension extends \Twig_Extension
         return $breadcrumbs;
     }
 
-    public function path($context)
+    public function path($context, $parameters = array())
     {
-        return $this->templateApi->path($context);
+        return $this->templateApi->path($context, $parameters);
     }
 
     public function imagePath($context, $options = [])
@@ -88,6 +98,33 @@ class KottiExtension extends \Twig_Extension
     public function option($key, $default = null)
     {
         return $this->templateApi->option($key, $default);
+    }
+
+    public function renderPagerfanta(PagerfantaInterface $pagerfanta, $viewName = null, array $options = array())
+    {
+        if (null === $viewName) {
+            $viewName = $this->container->getParameter('white_october_pagerfanta.default_view');
+        }
+
+        if(isset($options['context']) && $options['context'] instanceof NodeInterface) {
+            $context = $options;
+        }else{
+            $context = ''; // FIXME
+        }
+
+        $routeGenerator = $this->createRouteGenerator($options, $context);
+
+        return $this->container->get('white_october_pagerfanta.view_factory')->get($viewName)->render($pagerfanta, $routeGenerator, $options);
+    }
+
+    protected function createRouteGenerator($options = [], $context)
+    {
+        $request = $this->container->get('request');
+        $defaultRouteParams = $request->query->all();
+        return function ($page) use ($context, $defaultRouteParams)
+        {
+            return $this->path($context, array_merge($defaultRouteParams,[ 'page' => $page]));
+        };
     }
 
     /**

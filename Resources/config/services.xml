@@ -75,6 +75,7 @@
                  public="false">
             <argument type="service" id="truelab_kotti_frontend.template_api" />
             <argument type="service" id="truelab_kotti_frontend.html_body_processor_manager" />
+            <argument type="service" id="service_container" />
             <tag name="twig.extension" />
         </service>
 
