@@ -37,9 +37,15 @@
 </head>
 
 <body class="{{ context is defined ? kotti_type_class(context) : '' }} {% block body_class %}{% endblock %}">
-    {% import 'TruelabKottiFrontendBundle::macros.html.twig' as  kotti_macro %}
-    {% block body %}{% endblock %}
-    {% block javascripts %}{% endblock %}
-</body>
 
+    {% import 'TruelabKottiFrontendBundle::macros.html.twig' as  kotti_macro %}
+
+    {% block body %}{% endblock %}
+
+    {% block javascripts %}{% endblock %}
+
+    {% block google_analytics %}
+        {% include 'TruelabKottiFrontendBundle:Block:google_analytics.html.twig' %}
+    {% endblock %}
+</body>
 </html>
