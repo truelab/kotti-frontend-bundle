@@ -34,6 +34,10 @@
     {% block favicon %}
         <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}"/>
     {% endblock %}
+
+    {% block google_analytics %}
+        {% include 'TruelabKottiFrontendBundle:Block:google_analytics.html.twig' %}
+    {% endblock %}
 </head>
 
 <body class="{{ context is defined ? kotti_type_class(context) : '' }} {% block body_class %}{% endblock %}">
@@ -43,9 +47,5 @@
     {% block body %}{% endblock %}
 
     {% block javascripts %}{% endblock %}
-
-    {% block google_analytics %}
-        {% include 'TruelabKottiFrontendBundle:Block:google_analytics.html.twig' %}
-    {% endblock %}
 </body>
 </html>
