@@ -28,11 +28,29 @@ class Configuration implements ConfigurationInterface
                 ->scalarNode('default_layout')
                     ->defaultValue('@TruelabKottiFrontendBundle/Resources/views/base_layout.html.twig')
                 ->end()
+                // @deprecated
                 ->scalarNode('domain')
                     ->treatFalseLike(null)
                     ->defaultNull()
                 ->end()
+                ->scalarNode('base_url')
+                    ->treatFalseLike(null)
+                    ->defaultNull()
+                ->end()
+                // @deprecated
                 ->scalarNode('image_domain')
+                    // FIXME
+                    ->treatNullLike('http://localhost:5000')
+                    ->treatFalseLike('http://localhost:5000')
+                    ->defaultValue('http://localhost:5000')
+                ->end()
+                ->scalarNode('media_base_url')
+                // FIXME
+                    ->treatNullLike('http://localhost:5000')
+                    ->treatFalseLike('http://localhost:5000')
+                    ->defaultValue('http://localhost:5000')
+                ->end()
+                ->scalarNode('backend_base_url')
                     // FIXME
                     ->treatNullLike('http://localhost:5000')
                     ->treatFalseLike('http://localhost:5000')

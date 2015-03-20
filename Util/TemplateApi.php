@@ -38,7 +38,7 @@ class TemplateApi
         $url = null;
 
         if (is_string($context)) {
-            $url = $this->frontendDomain($context);
+            $url = $this->baseUrl($context);
         }
 
         foreach($this->pathHandlers as $pathHandler) {
@@ -50,7 +50,7 @@ class TemplateApi
 
         if($url === null) {
             if ($context instanceof NodeInterface) {
-                $url = $this->frontendDomain($context->getPath());
+                $url = $this->baseUrl($context->getPath());
             }else{
                 throw new \RuntimeException(sprintf('I can\'t generate a url for "%s"', get_class($context)));
             }
@@ -71,11 +71,11 @@ class TemplateApi
     {
         if(is_string($context)) {
 
-            $path = $this->imageDomain($context);
+            $path = $this->mediaBaseUrl($context);
 
         }elseif($context instanceof NodeInterface) {
 
-            $path = $this->imageDomain($context->getPath());
+            $path = $this->mediaBaseUrl($context->getPath());
         }else{
 
             throw new \RuntimeException(sprintf('I can\'t generate a image url for "%s"', get_class($context)));
@@ -105,7 +105,7 @@ class TemplateApi
         }
 
         if($context instanceof NodeInterface) {
-            $url = $this->imageDomain($context->getPath());
+            $url = $this->mediaBaseUrl($context->getPath());
 
             if($opt['download']) {
                 $url = rtrim($url, '/') . '/@@attachment-view';
@@ -157,6 +157,10 @@ class TemplateApi
         }
 
         $index = null;
+
+        /**
+         * @var $breadcrumb NodeInterface
+         */
         foreach($breadcrumbs as $i => $breadcrumb)
         {
             if($breadcrumb->equals($this->navigationRoot())) {
@@ -206,14 +210,37 @@ class TemplateApi
         return $default;
     }
 
+    /**
+     * @deprecated
+     *
+     * @param $path
+     *
+     * @return string
+     */
     public function frontendDomain($path)
     {
-        return rtrim($this->config['domain'], '/') . $path;
+        return $this->baseUrl($path);
     }
 
+    public function baseUrl($path)
+    {
+        return rtrim($this->config['base_url'], '/') . $path;
+    }
+
+    /**
+     * @deprecated
+     * @param $path
+     *
+     * @return string
+     */
     public function imageDomain($path)
     {
-        return rtrim($this->config['image_domain'], '/') . $path;
+        return $this->mediaBaseUrl($path);
+    }
+
+    public function mediaBaseUrl($path)
+    {
+        return rtrim($this->config['media_base_url'], '/') . $path;
     }
 
     protected static function startsWith($haystack, $needle, $case = false)

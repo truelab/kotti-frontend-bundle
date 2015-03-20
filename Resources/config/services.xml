@@ -111,7 +111,7 @@
         <service id="truelab_kotti_frontend.html_image_body_processor"
                  class="Truelab\KottiFrontendBundle\BodyProcessor\Html\ImageBodyProcessor"
                  >
-            <argument>%truelab_kotti_frontend.image_domain%</argument>
+            <argument>%truelab_kotti_frontend.media_base_url%</argument>
             <tag name="truelab_kotti_frontend.html_processor" />
         </service>
 

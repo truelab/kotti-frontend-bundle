@@ -9,15 +9,15 @@ use Symfony\Component\Config\Definition\Exception\Exception;
  */
 class ImageBodyProcessor implements BodyProcessorInterface
 {
-    private $imageDomain;
+    private $mediaBaseUrl;
 
-    public function __construct($imageDomain = 'http://localhost:5000')
+    public function __construct($mediaBaseUrl = 'http://localhost:5000')
     {
-        if(!$imageDomain) {
+        if(!$mediaBaseUrl) {
             throw new Exception('image_domain can not be null.');
         }
 
-        $this->imageDomain = $imageDomain;
+        $this->mediaBaseUrl = $mediaBaseUrl;
     }
 
     /**
@@ -28,7 +28,7 @@ class ImageBodyProcessor implements BodyProcessorInterface
     public function process($html)
     {
         foreach($html->find('img') as $img) {
-            $img->setAttribute('src', $this->imageDomain . $img->getAttribute('src'));
+            $img->setAttribute('src', $this->mediaBaseUrl . $img->getAttribute('src'));
         }
 
         foreach($html->find('img[style="float: right;"]') as $imgRight) {

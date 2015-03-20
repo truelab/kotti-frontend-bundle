@@ -24,9 +24,9 @@ class TemplateApiTest extends \PHPUnit_Framework_TestCase
             ->disableOriginalConstructor()
             ->getMock();
         $this->api = new TemplateApi(array(
-            'domain' => 'http://localhost:8000/'
+            'base_url' => 'http://localhost:8000/'
         ), $currentContext);
-        $this->assertArrayHasKey('domain', $this->api->getConfig());
+        $this->assertArrayHasKey('base_url', $this->api->getConfig());
     }
 
     /**
@@ -43,7 +43,7 @@ class TemplateApiTest extends \PHPUnit_Framework_TestCase
             ->getMock();
 
         $this->api = new TemplateApi(array(
-            'domain' => $domain
+            'base_url' => $domain
         ), $currentContext);
 
         /**
@@ -72,7 +72,7 @@ class TemplateApiTest extends \PHPUnit_Framework_TestCase
         $currentContext->set($this->provideNode());
 
         $this->api = new TemplateApi(array(
-            'domain' => 'http://localhost:8000/'
+            'base_url' => 'http://localhost:8000/'
         ), $currentContext);
 
         $breadcrumbsPath = array_map(function ($node) {
@@ -100,7 +100,7 @@ class TemplateApiTest extends \PHPUnit_Framework_TestCase
             ->willReturn('/images/foo/bar/');
 
         $this->api = new TemplateApi(array(
-            'image_domain' => 'http://cms.admin.com/'
+            'media_base_url' => 'http://cms.admin.com/'
         ), $currentContext);
 
         $this->assertEquals('http://cms.admin.com/images/foo/image', $this->api->imagePath('/images/foo/'));
@@ -113,8 +113,8 @@ class TemplateApiTest extends \PHPUnit_Framework_TestCase
     public function provideDomainPath()
     {
         return [
-            ['domain'=> 'http://localhost:8000/', 'path' => 'http://localhost:8000/en/mip/'],
-            ['domain' => 'http://www.localhost.com', 'path' => 'http://www.localhost.com/en/mip/' ]
+            ['base_url'=> 'http://localhost:8000/', 'path' => 'http://localhost:8000/en/mip/'],
+            ['base_url' => 'http://www.localhost.com', 'path' => 'http://www.localhost.com/en/mip/' ]
         ];
     }
 

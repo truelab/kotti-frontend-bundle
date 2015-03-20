@@ -24,8 +24,11 @@ class TruelabKottiFrontendExtension extends Extension implements PrependExtensio
         $config = $this->processConfiguration($configuration, $configs);
 
         $templateApiConfig = array(
-            'domain' => $config['domain'],
-            'image_domain' => $config['image_domain']
+            'domain' => $config['domain'], // @deprecated
+            'image_domain' => $config['image_domain'], // @deprecated
+            'base_url' => $config['base_url'],
+            'media_base_url' => $config['media_base_url'],
+            'backend_base_url' => $config['backend_base_url']
         );
 
         $navigableContextTypes = array_merge([
@@ -39,7 +42,12 @@ class TruelabKottiFrontendExtension extends Extension implements PrependExtensio
         $container->setParameter($this->getAlias() .'.node_path_param', $config['node_path_param']);
         $container->setParameter($this->getAlias() .'.template_api_config', $templateApiConfig);
         $container->setParameter($this->getAlias() .'.template_options', $config['options']);
-        $container->setParameter($this->getAlias() .'.image_domain', $config['image_domain']);
+        $container->setParameter($this->getAlias() .'.image_domain', $config['image_domain']); // @deprecated
+
+        $container->setParameter($this->getAlias() .'.base_url', $config['base_url']);
+        $container->setParameter($this->getAlias() .'.media_base_url', $config['media_base_url']);
+        $container->setParameter($this->getAlias() .'.backend_base_url', $config['backend_base_url']);
+
         $container->setParameter($this->getAlias() .'.navigable_context_types', $config['navigable_context_types']);
         $container->setParameter($this->getAlias() .'.view_config_controllers', $config['view_config_controllers']);
 
