@@ -24,10 +24,10 @@ class TruelabKottiFrontendExtension extends Extension implements PrependExtensio
         $config = $this->processConfiguration($configuration, $configs);
 
         $templateApiConfig = array(
-            'domain' => $config['domain'], // @deprecated
-            'image_domain' => $config['image_domain'], // @deprecated
-            'base_url' => $config['base_url'],
-            'media_base_url' => $config['media_base_url'],
+            'domain'           => $config['domain'], // @deprecated
+            'image_domain'     => $config['image_domain'], // @deprecated
+            'base_url'         => $config['base_url'],
+            'media_base_url'   => $config['media_base_url'],
             'backend_base_url' => $config['backend_base_url']
         );
 
