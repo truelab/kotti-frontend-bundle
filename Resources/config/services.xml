@@ -115,6 +115,14 @@
             <tag name="truelab_kotti_frontend.html_processor" />
         </service>
 
+        <!-- HTML IMAGE PROCESSOR -->
+        <service id="truelab_kotti_frontend.file_attachment_body_processor"
+                 class="Truelab\KottiFrontendBundle\BodyProcessor\Html\FileAttachmentBodyProcessor"
+            >
+            <argument type="service" id="truelab_kotti_frontend.template_api" />
+            <tag name="truelab_kotti_frontend.html_processor" />
+        </service>
+
         <!-- TREE FACTORY -->
         <service id="truelab_kotti_frontend.tree_factory" class="Truelab\KottiFrontendBundle\Tree\TreeFactory"/>
 
