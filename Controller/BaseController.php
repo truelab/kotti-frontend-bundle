@@ -10,6 +10,7 @@ use Truelab\KottiModelBundle\Model\NodeInterface;
  */
 class BaseController extends Controller
 {
+    // FIXME this is a trait not a base controller
     /**
      * @param NodeInterface $context
      *
