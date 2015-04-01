@@ -1,6 +1,13 @@
 History
 =======
 
+
+0.2.2 (2015-04-01)
+------------------
+
+- 85382c5 adds kotti_in_navigation filter [Ruben Barilani]
+
+
 0.2.1 (2015-03-31)
 ------------------
 
