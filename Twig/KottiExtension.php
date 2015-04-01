@@ -40,6 +40,9 @@ class KottiExtension extends \Twig_Extension
             )),
             new \Twig_SimpleFilter('kotti_type', function ($input, $pattern) {
                 return ModelUtil::filterByType($input, $pattern);
+            }),
+            new \Twig_SimpleFilter('kotti_in_navigation', function ($input, $inNavigation = true) {
+                return ModelUtil::filterInNavigation($input, $inNavigation);
             })
         );
     }
