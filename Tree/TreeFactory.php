@@ -1,20 +1,17 @@
 <?php
+
 namespace Truelab\KottiFrontendBundle\Tree;
 
-
-use Tree\Builder\NodeBuilderInterface;
 use Truelab\KottiModelBundle\Model\NodeInterface;
-use Truelab\KottiFrontendBundle\Tree\Exception\GetChildrenCallbackException;
+
 
 
 /**
  * Class TreeFactory
  * @package MIP\CoreBundle\Services\TreeNode
  */
-class TreeFactory implements  TreeFactoryInterface
+class TreeFactory implements TreeFactoryInterface
 {
-    protected static $nodeBuilderClass = 'Tree\Builder\NodeBuilder';
-
     protected static $nodeProxyClass   = 'Truelab\KottiFrontendBundle\Tree\NodeProxy';
 
     /**
@@ -34,7 +31,7 @@ class TreeFactory implements  TreeFactoryInterface
             return self::createProxyFromNode($nodes, $getChildren);
         }
 
-        throw new \Exception(sprintf('$node param can be an array (NodeInterface[]) or an instance of a NodeInterface. "%s" given.', get_class($node)));
+        throw new \Exception(sprintf('$node param can be an array (NodeInterface[]) or an instance of a NodeInterface. "%s" given.', gettype($nodes)));
     }
 
     /**
@@ -61,7 +58,7 @@ class TreeFactory implements  TreeFactoryInterface
     protected static function createProxyFromNode(NodeInterface $node, callable $getChildren)
     {
         $treeNode = self::createNode($node);
-        $treeNode->setChildren(self::executeCallback($getChildren, $node));
+        $treeNode->setChildren(TreeFactoryObject::executeCallback($getChildren, $node));
         return $treeNode;
     }
 
@@ -74,126 +71,18 @@ class TreeFactory implements  TreeFactoryInterface
      */
     public static function getTree(NodeInterface $node, callable $getChildren, $maxDepth = 10)
     {
-        return self::getTreeBuilder($node, $getChildren, $maxDepth)->getNode();
+        return (new TreeFactoryObject($node, $getChildren))->getTree($maxDepth);
     }
 
     /**
-     * @param NodeInterface $node
-     * @param callable $getChildren
-     * @param int $maxDepth
+     * @param array $lineage
+     * @param $context
      *
-     * @return NodeBuilderInterface
+     * @return \Tree\Node\NodeInterface
      */
-    protected static function getTreeBuilder(NodeInterface $node, callable $getChildren, $maxDepth = 10)
-    {
-        /**
-         * @var NodeBuilderInterface $builder
-         */
-        $builder = self::createTreeBuilder();
-        $rootNodes = [];
-
-        self::traverseTree(self::executeCallback($getChildren, $node), $getChildren, $maxDepth, $rootNodes, $node, $builder);
-
-        return $builder;
-    }
-
-    /**
-     * @param array $children
-     * @param callable $getChildren
-     * @param int $maxDepth
-     *
-     * utility recursive params:
-     *
-     * @param array $rootNodes
-     * @param NodeInterface $node
-     * @param NodeBuilderInterface $builder
-     * @param int $depth
-     *
-     */
-    protected static function traverseTree(array $children, callable $getChildren, $maxDepth, &$rootNodes = [], NodeInterface $node, NodeBuilderInterface &$builder, $depth = 0)
-    {
-
-        /**
-         * if max depth = 0, also if it does not really make sense,
-         * adds root node only and return
-         */
-        if($maxDepth === 0) {
-            $builder->value($node);
-            return;
-        }
-
-        if($maxDepth === $depth) {
-            return;
-        }
-
-        $depth++;
-
-        /**
-         * if max depth is 1, we don't need recursion.
-         * adds root node and its leafs and return
-         */
-        if($maxDepth === 1) {
-
-            $builder->value($node);
-
-            foreach($children as $child)
-            {
-                $builder->leaf($child);
-            }
-            return;
-        }
-
-        /**
-         * @var $child NodeInterface
-         */
-        foreach($children as $child)
-        {
-
-            if(!isset($rootNodes[$node->getPath()])) {
-                $rootNodes[$node->getPath()] = $node;
-
-                // THIS IS THE ROOT NODE!
-                if($depth === 1) {
-                    $builder->value($node);
-                }else{
-                    // IS EVENTUALLY A WRONG PLACE FOR A NEW TREE NODE?
-                    if(($depth - 1) !== ($builder->getNode()->getDepth() + 1)) {
-                        while(($depth - 1) !== $builder->getNode()->getDepth()) {
-                            $builder->end();
-                        }
-                    }
-                    $builder->tree($node);
-                }
-
-            }
-
-            // IS EVENTUALLY A WRONG PLACE FOR A LEAF?
-            if(($depth - 1) !== ($builder->getNode()->getDepth())) {
-                while(($depth - 1) !== $builder->getNode()->getDepth()) {
-                    $builder->end();
-                }
-            }
-
-            // IF IS NOT FATHER IS A LEAF
-            if(count($childChildren = self::executeCallback($getChildren, $child)) === 0) {
-                $builder->leaf($child);
-            }
-
-            self::traverseTree(
-                $childChildren,
-                $getChildren,
-                $maxDepth,
-                $rootNodes,
-                $child,
-                $builder,
-                $depth
-            );
-        }
-    }
-
     public static function getLineageTree(array $lineage, $context)
     {
-        $builder = self::createTreeBuilder();
+        $builder = TreeFactoryObject::createTreeBuilder();
         $reverseLineage = array_reverse($lineage);
 
         array_push($reverseLineage, $context);
@@ -221,36 +110,6 @@ class TreeFactory implements  TreeFactoryInterface
     }
 
     /**
-     * @return NodeBuilderInterface
-     */
-    protected static function createTreeBuilder()
-    {
-        return new self::$nodeBuilderClass();
-    }
-
-    /**
-     * @param callable $callback
-     * @param NodeInterface $node
-     *
-     * @return \Truelab\KottiModelBundle\Model\NodeInterface[]
-     *
-     * @throws GetChildrenCallbackException
-     */
-    protected static function executeCallback(callable $callback, NodeInterface $node)
-    {
-        $array = call_user_func_array($callback, [
-            $node
-        ]);
-
-        if(!is_array($array)) {
-            throw new GetChildrenCallbackException(
-               sprintf('Get children callback must return an array of nodes! "%s" given.', gettype($array))
-            );
-        }
-        return $array;
-    }
-
-    /**
      * @param NodeInterface $node
      *
      * @return NodeProxy
@@ -261,3 +120,4 @@ class TreeFactory implements  TreeFactoryInterface
     }
 
 }
+
