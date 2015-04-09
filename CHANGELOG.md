@@ -2,6 +2,12 @@ History
 =======
 
 
+0.3.0 (2015-04-09)
+------------------
+
+- ab4bfd4 refactor tree factory, adds TreeFactoryObject [Ruben Barilani]
+
+
 0.2.2 (2015-04-01)
 ------------------
 
