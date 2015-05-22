@@ -2,6 +2,12 @@ History
 =======
 
 
+0.4.0 (2015-05-22)
+------------------
+
+- 51607c5 adds configurable page parameter option to kotti_pagerfanta twig helper [Ruben Barilani]
+
+
 0.3.0 (2015-04-09)
 ------------------
 
