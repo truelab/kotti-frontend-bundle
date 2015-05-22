@@ -125,9 +125,11 @@ class KottiExtension extends \Twig_Extension
     {
         $request = $this->container->get('request');
         $defaultRouteParams = $request->query->all();
-        return function ($page) use ($context, $defaultRouteParams)
+        $pageParameter = isset($options['pageParameter']) ? $options['pageParameter'] : 'page';
+
+        return function ($page) use ($context, $defaultRouteParams, $pageParameter)
         {
-            return $this->path($context, array_merge($defaultRouteParams,[ 'page' => $page]));
+            return $this->path($context, array_merge($defaultRouteParams,[ $pageParameter => $page ]));
         };
     }
 
